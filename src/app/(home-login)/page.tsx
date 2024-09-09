@@ -81,6 +81,7 @@ export default function Home() {
         <div className="">
           <HeaderTitles text='Kursla' size='text-5xl' />
           <Card projects={CardsMap} />
+          <HeaderTitles text='Contact us'/>
         </div>
       </div>
 
