@@ -2,12 +2,22 @@ import React from 'react';
 import DefTitles from '../Text/DefText';
 import { bgColor, BorderColor, TitleTextColor } from '../Colors';
 
-export default function Button({ size, text, isScrolled }) {
+interface ButtonProps {
+    size: 'small' | 'medium' | 'large'; // Adjust based on your actual size options
+    text: string;
+    isScrolled?: boolean;
+}
+
+const Button: React.FC<ButtonProps> = ({ size, text, isScrolled }) => {
+    // Construct dynamic class names using template literals
+    const borderColorClass = `border-[#16423C]`;
+    const textColorClass = `text-${TitleTextColor}`;
+    const hoverBgColorClass = `hover:bg-${BorderColor}`;
+
     return (
         <div>
             <button
-                className={`px-6 md:px-10 py-1 border-2 border-${BorderColor} rounded-lg text-${TitleTextColor} hover:bg-${BorderColor} hover:text-white transition-all duration-300 ${isScrolled ? 'bg-[#C4DAD2]' : bgColor}` }
-
+                className={`px-6 md:px-10 py-1 border-2 ${borderColorClass} rounded-lg ${textColorClass} ${hoverBgColorClass} hover:text-white transition-all duration-300 ${isScrolled ? 'bg-[#C4DAD2] border-[#C4DAD2]' : bgColor}`}
             >
                 <span>
                     <DefTitles text={text} size={size} />
@@ -16,3 +26,5 @@ export default function Button({ size, text, isScrolled }) {
         </div>
     );
 }
+
+export default Button;

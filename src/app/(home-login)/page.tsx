@@ -8,6 +8,7 @@ import { BackgroundBeamsWithCollision } from '@/components/ui/background-beams-w
 import Navbar from '@/components/Navbar';
 import HeaderTitles from '@/components/Text/HeadText';
 import { Card } from '@/components/Cards/Card';
+import { bgColorBody } from '@/components/Colors';
 
 const slideData = [
   {
@@ -37,42 +38,52 @@ const navItems = [
   { name: 'Profile', link: '/profile' },
 ];
 
-export const bgColor = '#E9EFEC';
+
 const CardsMap = [
   {
     imgSrc: "https://picsum.photos/500/400",
     title: "Front-end",
     description: "Front-end full course",
-    link: "#",
+    link: "/login",
   },
   {
     imgSrc: "https://picsum.photos/500/400",
-    title: "Stripe",
+    title: "Back-end ",
     description: "A technology company that builds economic infrastructure for the internet.",
-    link: "#",
+    link: "/login",
   },
-  // Add more cards if needed...
+  {
+    imgSrc: "https://picsum.photos/500/400",
+    title: "3DS max",
+    description: "A technology company that builds economic infrastructure for the internet.",
+    link: "/login",
+  },
+  {
+    imgSrc: "https://picsum.photos/500/400",
+    title: "Graphic Design",
+    description: "A technology company that builds economic infrastructure for the internet.",
+    link: "/login",
+  },
+
 ];
 export default function Home() {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
 
-    <div style={{ backgroundColor: bgColor }} className='font-semibold'>
+    <div style={{ backgroundColor: bgColorBody }} className='font-semibold'>
       <Navbar />
-      <BackgroundBeamsWithCollision>
-        <div className='container my-0' >
-          <QueryClientProvider client={queryClient}>
+      <div className='container my-0' >
+        <QueryClientProvider client={queryClient}>
 
-            <Hero slides={slideData} />
-          </QueryClientProvider>
-          <div className="">
-            <HeaderTitles text='Kursla' size='text-5xl' />
-            <Card projects={CardsMap} />
-          </div>
+          <Hero slides={slideData} />
+        </QueryClientProvider>
+        <div className="">
+          <HeaderTitles text='Kursla' size='text-5xl' />
+          <Card projects={CardsMap} />
         </div>
+      </div>
 
-      </BackgroundBeamsWithCollision>
     </div>
   );
 }

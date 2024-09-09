@@ -2,8 +2,10 @@ import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
-import HeaderTitles from "../Text/HeadText";
-import DefTitles from "../Text/DefText";
+import { bgColor, BorderColor, TitleTextColor } from "../Colors";
+const borderColorClass = `border-[#16423C]`;
+const textColorClass = `text-${TitleTextColor}`;
+const hoverBgColorClass = `hover:bg-${BorderColor}`;
 
 export const HoverEffect = ({
     items,
@@ -13,7 +15,7 @@ export const HoverEffect = ({
         title: string;
         description: string;
         link: string;
-        imgSrc: string | any;
+        imgSrc: string;
     }[];
     className?: string;
 }) => {
@@ -22,7 +24,7 @@ export const HoverEffect = ({
     return (
         <div
             className={cn(
-                "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-10",
+                "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-5 py-10",
                 className
             )}
         >
@@ -37,7 +39,7 @@ export const HoverEffect = ({
                     <AnimatePresence>
                         {hoveredIndex === idx && (
                             <motion.span
-                                className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-slate-800/[0.8] block rounded-3xl"
+                                className="absolute inset-0 h-full w-full  bg-[#93b3ae] block rounded-3xl"
                                 layoutId="hoverBackground"
                                 initial={{ opacity: 0 }}
                                 animate={{
@@ -51,9 +53,13 @@ export const HoverEffect = ({
                             />
                         )}
                     </AnimatePresence>
-                    <Card imgSrc={item.imgSrc}>
+                    <Card className="flex flex-col gap-3" imgSrc={item.imgSrc}>
                         <CardTitle>{item.title}</CardTitle>
                         <CardDescription>{item.description}</CardDescription>
+                        {/* Example usage of the Button component */}
+                        <button className="text-[20px] text-white border px-6 p-1 mt-4">
+                            view
+                        </button>
                     </Card>
                 </Link>
             ))}
@@ -73,19 +79,20 @@ export const Card = ({
     return (
         <div
             className={cn(
-                "rounded-2xl h-full w-full p-4 overflow-hidden bg-[${borderColor}] border border-transparent  relative z-20",
+                `rounded-2xl h-full w-full p-4 overflow-hidden bg-[${bgColor}] shadow-lg relative z-20`,
                 className
             )}
         >
             <img
                 src={imgSrc}
                 alt="Card Image"
-                
                 className="w-full h-auto object-cover rounded-lg"
             />
-            <div className="relative z-50 mt-4">
+            <div className="relative text-2xl z-50 mt-4">
                 <div className="p-4">
-                    <DefTitles text={children}/>
+                    <span className={`text-[${TitleTextColor}]`}>
+                        {children}
+                    </span>
                 </div>
             </div>
         </div>
@@ -120,7 +127,9 @@ export const CardDescription = ({
                 className
             )}
         >
-            {children}
+            <span className='text-[#E9EFEC]'>
+                {children}
+            </span>
         </p>
     );
 };
