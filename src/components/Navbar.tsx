@@ -51,7 +51,7 @@ export default function Navbar() {
                     )}
                 </div>
                 <div>
-                    <Link href="/singin" passHref>
+                    <Link href="/auth/login" passHref>
                         <Button
                             size="text-lg"
                             text="Log-in"

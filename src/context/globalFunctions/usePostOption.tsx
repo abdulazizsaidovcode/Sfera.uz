@@ -2,10 +2,14 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { toastMessage } from "../api/toastMessage";
 
+interface dataOption {
+  token: string,
+  role: string
+}
 interface UsePostResponse<T> {
   loading: boolean;
   error: any;
-  response: T | null;
+  response: dataOption;
   postData: () => void;
 }
 
