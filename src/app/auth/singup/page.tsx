@@ -1,77 +1,104 @@
-"use client"
+"use client";
 import Images from '@/assets/ImgSend';
 import Button from '@/components/Button/Button';
-import { bgColorBody } from '@/components/Colors';
 import HeaderTitles from '@/components/Text/HeadText';
 import { BackgroundLines } from '@/components/ui/background-lines';
 import { Input } from '@/components/ui/input';
+import { Regester } from '@/context/api/api';
+import { usePost } from '@/context/globalFunctions/usePostOption';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useState } from 'react';
 
 export default function Signup() {
     const [formData, setFormData] = useState({
-        name: '',
+        firstName: '',
+        lastName: '',
         phone: '',
-        password: ''
+        password: '',
+        isPasswordVisible: false,
     });
-
+    const { postData } = usePost(Regester, formData);
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
+        setFormData((prev) => ({
+            ...prev,
+        }));
+    };
+
+    const handlePasswordToggle = () => {
+        setFormData((prev) => ({
+            ...prev,
+            isPasswordVisible: !prev.isPasswordVisible,
+        }));
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Handle form submission (e.g., send data to API)
-        console.log(formData);
+        postData();
     };
-    bgColorBody
+
     return (
         <BackgroundLines>
-            <div className="min-h-screen flex font-semibold items-center justify-center bg-[#E9EFEC]">
-                <div className="bg-[#6A9C89] opacity p-8 rounded-lg shadow-lg w-full max-w-md">
-                    <h2 className="text-2xl w-full flex items-center justify-center font-bold text-center text-gray-800 mb-6">
-                        <Image src={Images.Logo} width={150} />
+            <div className="min-h-screen flex font-semibold items-center text-white justify-center bg-[#E9EFEC]">
+                <title>
+                    Register | Create your account
+                </title>
+                <div className="bg-[#6A9C89] z-50 p-8 rounded-lg shadow-lg w-full max-w-md">
+                    <h2 className="text-2xl w-full flex items-center justify-center font-bold text-center mb-6">
+                        <Image src={Images.Logo} alt='.' width={150} />
                     </h2>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-4">
-                            <label className="block text-gray-700 mb-2" htmlFor="name">
-                                Name
+                            <label className="block mb-2" htmlFor="firstName">
+                                First Name
                             </label>
                             <Input
                                 type="text"
-                                name="name"
-                                id="name"
-                                value={formData.name}
+                                name="firstName"
+                                id="firstName"
+                                value={formData.firstName}
                                 onChange={handleChange}
                                 className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
-                                placeholder="Enter your name"
+                                placeholder="Enter your first name"
                                 required
                             />
                         </div>
                         <div className="mb-4">
-                            <label className="block text-gray-700 mb-2" htmlFor="email">
-                                <HeaderTitles text=' Phone Number' size='text-[]' />
+                            <label className="block mb-2" htmlFor="lastName">
+                                Last Name
                             </label>
                             <Input
-                                type="email"
-                                name="email"
-                                id="email"
+                                type="text"
+                                name="lastName"
+                                id="lastName"
+                                value={formData.lastName}
+                                onChange={handleChange}
+                                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
+                                placeholder="Enter your last name"
+                                required
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block mb-2" htmlFor="phone">
+                                Phone Number
+                            </label>
+                            <Input
+                                type="text"
+                                name="phone"
+                                id="phone"
                                 value={formData.phone}
                                 onChange={handleChange}
                                 className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
-                                placeholder="Enter your PhoneNumber"
+                                placeholder="Enter your phone number"
                                 required
                             />
                         </div>
                         <div className="mb-4">
-                            <label className="block text-gray-700 mb-2" htmlFor="password">
+                            <label className="block mb-2" htmlFor="password">
                                 Password
                             </label>
                             <Input
-                                type="password"
+                                type={formData.isPasswordVisible ? "text" : "password"}
                                 name="password"
                                 id="password"
                                 value={formData.password}
@@ -80,18 +107,24 @@ export default function Signup() {
                                 placeholder="Enter your password"
                                 required
                             />
+                            <button
+                                type="button"
+                                onClick={handlePasswordToggle}
+                                className="mt-2 text-indigo-600"
+                            >
+                                {formData.isPasswordVisible ? "Hide" : "Show"} Password
+                            </button>
                         </div>
 
                         <button
                             type="submit"
-                            text='Sing up'
-                            className="w-full pb-2 pr-2 bg-[#E9EFEC] text-md  rounded-md  transition duration-300"
+                            className={`w-full pb-2 pr-2 bg-[#E9EFEC] text-md rounded-md transition duration-300 `}
                         >
-                            <HeaderTitles text='Sing in' size='text-md' />
+                            <HeaderTitles text='Sign up' size='text-md' />
                         </button>
                     </form>
-                    <p className="text-center text-gray-500 mt-4">
-                        Already have an account? <a href="/login" className="text-indigo-600">Log In</a>
+                    <p className="text-center mt-4">
+                        Already have an account? <Link href="/login" className="text-indigo-600 underline">Log In</Link>
                     </p>
                 </div>
             </div>
