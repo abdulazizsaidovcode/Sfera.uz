@@ -7,6 +7,13 @@ import { BackgroundLines } from "@/components/ui/background-lines";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importing icons from react-icons/fa
 import { usePost } from "@/context/globalFunctions/usePostOption";
 import { BASE_URL } from "@/context/api/api";
+import { bgColor, bgColorBody } from "@/components/Colors";
+import HeaderTitles from "@/components/Text/HeadText";
+import Image from "next/image";
+import Images from "@/assets/ImgSend";
+import { Cover } from "@/components/ui/cover";
+import { BackgroundGradient } from "@/components/ui/background-gradient";
+import Link from "next/link";
 
 export default function SignupFormDemo() {
   const [formData, setFormData] = useState({
@@ -16,10 +23,13 @@ export default function SignupFormDemo() {
     phoneError: "",
     passwordError: "",
   });
-  const { error, loading, postData, response} = usePost(`${BASE_URL}`, {
-    phone: `998${formData.phoneNumber}`,
-    password: formData.password,
-  })
+  const { error, loading, postData, response } = usePost(
+    `${BASE_URL}auth/login`,
+    {
+      phoneNumber: `998${formData.phoneNumber}`,
+      password: formData.password,
+    }
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -45,8 +55,8 @@ export default function SignupFormDemo() {
         ...prev,
         password: value,
         passwordError:
-          value.length < 4
-            ? "Password must be at least 4 characters long."
+          value.length < 5
+            ? "Password must be at least 5 characters long."
             : "",
       }));
     }
@@ -59,33 +69,32 @@ export default function SignupFormDemo() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const handleSubmit = () => {
     // Final validation before submission
     if (formData.phoneNumber.length === 9 && formData.password.length >= 4) {
-      console.log("Form submitted with:", {
-        phone: `998${formData.phoneNumber}`,
-        password: formData.password,
-      });
-
+      postData();
     }
   };
 
   return (
     <BackgroundLines className="flex items-center justify-center w-full flex-col px-4">
-      <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black z-10">
-        <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
-          Welcome to Aceternity
-        </h2>
-        <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
-          Login to aceternity if you can because we don&apos;t have a login flow
-          yet
+      <BackgroundGradient className=" overflow-hidden rounded-none md:rounded-2xl dark:bg-zinc-900">
+
+      <div
+        className={`max-w-md w-full mx-auto p-4 md:p-8 shadow-input bg-[${bgColor}] dark:bg-black z-10`}
+      >
+        <div className="w-full flex items-center justify-center mb-6">
+          <Image alt="." src={Images.Logo} width={150} />
+        </div>
+        <p className="text-white text-center text-sm max-w-sm mt-2 dark:text-neutral-300">
+          Tizimga kirish uchun malumotlaringizni to'gri kiriting!
         </p>
 
-        <form className="my-8" onSubmit={handleSubmit}>
+        <div className="my-8">
           <LabelInputContainer className="mb-4">
-            <Label htmlFor="phone">Phone number</Label>
+            <Label className="text-white font-semibold" htmlFor="phone">
+              Phone number
+            </Label>
             <div className="relative">
               <Input
                 id="phone"
@@ -109,11 +118,13 @@ export default function SignupFormDemo() {
             )}
           </LabelInputContainer>
           <LabelInputContainer className="mb-4">
-            <Label htmlFor="password">Password</Label>
+            <Label className="text-white font-semibold" htmlFor="password">
+              Password
+            </Label>
             <div className="relative">
               <Input
                 id="password"
-                placeholder="••••••••"
+                placeholder="•••••"
                 type={formData.isPasswordVisible ? "text" : "password"}
                 value={formData.password}
                 onChange={handleChange}
@@ -134,16 +145,28 @@ export default function SignupFormDemo() {
           </LabelInputContainer>
 
           <button
-            className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
-            type="submit"
+            className={`bg-[${bgColorBody}] flex justify-center items-center pb-2 relative group/btn dark:from-zinc-900 dark:to-zinc-900 dark:bg-zinc-800 w-full rounded-md shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]`}
+            onClick={() => {
+              handleSubmit()
+            }}
           >
-            Sign up &rarr;
+            <HeaderTitles text="Log in" size="text-lg" />
             <BottomGradient />
           </button>
 
-          <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
-        </form>
+          <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-5 h-[1px] w-full" />
+
+          <div className="flex justify-center items-center w-full gap-3">
+            <p className="text-white text-lg font-semibold text-center max-w-sm dark:text-neutral-300">
+              I have not account.
+            </p>
+            <Link href={"/auth/signup"} className="text-sm">
+              <Cover>SIGN UP</Cover>
+            </Link>
+          </div>
+        </div>
       </div>
+      </BackgroundGradient>
     </BackgroundLines>
   );
 }

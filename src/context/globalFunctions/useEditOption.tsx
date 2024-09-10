@@ -14,10 +14,10 @@ interface UseEditResponse<T> {
   editData: () => void;
 }
 
-export function useEdit<T>(url: string, data: T): UseEditResponse<T> {
+export function useEdit<T>(url: string, data: T, config?: any): UseEditResponse<T> {
   const mutation = useMutation({
     mutationFn: async () => {
-      const result = await axios.put(url, data); // Yoki .patch(url, data)
+      const result = await axios.put(url, data, config ? config : {}); // Yoki .patch(url, data)
       if (result.data.error) {
         toastMessage(result.data.error)
         throw new Error(result.data.error);

@@ -9,10 +9,10 @@ interface UsePostResponse<T> {
   postData: () => void;
 }
 
-export function usePost<T>(url: string, data: T): UsePostResponse<T> {
+export function usePost<T>(url: string, data: T, config?: any): UsePostResponse<T> {
   const mutation = useMutation({
     mutationFn: async () => {
-      const result = await axios.post(url, data);
+      const result = await axios.post(url, data, config ? config : {});
       if (result.data.error) {
         toastMessage(result.data.error);
         throw new Error(result.data.error);
