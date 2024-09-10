@@ -16,10 +16,10 @@ export default function SignupFormDemo() {
     phoneError: "",
     passwordError: "",
   });
-  // const { error, loading, postData, response} = usePost(`${BASE_URL}`, {
-  //   phone: `998${formData.phoneNumber}`,
-  //   password: formData.password,
-  // })
+  const { error, loading, postData, response} = usePost(`${BASE_URL}`, {
+    phone: `998${formData.phoneNumber}`,
+    password: formData.password,
+  })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
