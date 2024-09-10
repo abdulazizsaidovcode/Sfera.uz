@@ -23,8 +23,8 @@ export default function SignupFormDemo() {
 
         <form className="my-8" onSubmit={handleSubmit}>
           <LabelInputContainer className="mb-4">
-            <Label htmlFor="email">Email Address</Label>
-            <Input id="email" placeholder="+998 -- --- --" type="text" />
+            <Label htmlFor="phone">Phone number</Label>
+            <Input id="phone" placeholder="+998 -- --- --" type="text" />
           </LabelInputContainer>
           <LabelInputContainer className="mb-4">
             <Label htmlFor="password">Password</Label>
