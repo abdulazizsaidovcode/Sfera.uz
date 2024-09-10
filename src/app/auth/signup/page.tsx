@@ -34,7 +34,7 @@ export default function SignupFormDemo() {
         {
             lastname: formData.lastname,
             firstname: formData.firstname,
-            phoneNumber: `+998${formData.phoneNumber}`,
+            phoneNumber: `998${formData.phoneNumber}`,
             password: formData.password,
         }
     );
@@ -97,11 +97,11 @@ export default function SignupFormDemo() {
         if (formData.phoneNumber.length === 9 && formData.password.length >= 4) {
             try {
                 await postData();
-                toast.success(' ')
+                response  && toast.success( 'Kirildi')
                 router.push('/auth/login');
             } catch (err) {
                 // console.error("Signup failed:", err);
-                // toast.error('Iltimos ma\'lumotlarni to\'g\'ri kiritish')
+                // toast.error('')
             }
         }
     };
@@ -202,10 +202,11 @@ export default function SignupFormDemo() {
                         </LabelInputContainer>
 
                         <button
-                            className={`bg-[#E9EFEC] flex justify-center items-center pb-2 relative group/btn dark:from-zinc-900 dark:to-zinc-900 dark:bg-zinc-800 w-full rounded-md shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]`}
+                            disabled={loading}
+                            className={`${loading? 'bg-[#3d857b]    ':"bg-[#E9EFEC] "} flex justify-center items-center pb-2 relative group/btn dark:from-zinc-900 dark:to-zinc-900 dark:bg-zinc-800 w-full rounded-md shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]`}
                             onClick={handleSubmit}
                         >
-                            <HeaderTitles text="Sign-up" size="text-lg" />
+                            <HeaderTitles color={loading ? "text-white" : "text-transparent"} text={loading ?'loading....' :"Sign-up"} size="text-lg" />
                             <BottomGradient />
                         </button>
 
