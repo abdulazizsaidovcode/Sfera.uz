@@ -94,7 +94,7 @@ export default function Home() {
           <HeaderTitles text='Kursla' size='text-5xl' />
           <Card projects={CardsMap} />
           <HeaderTitles text='Contact us' />
-          <ContactUs />
+          <ContactUs onSubmit={() => {}} />
         </div>
       </div>
       <Footer />
