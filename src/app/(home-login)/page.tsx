@@ -9,35 +9,46 @@ import Navbar from '@/components/Navbar';
 import HeaderTitles from '@/components/Text/HeadText';
 import { Card } from '@/components/Cards/Card';
 import { bgColorBody } from '@/components/Colors';
+import ContactUs from '@/components/Contact/Contact';
+import Footer from '@/components/Footer/Footer';
 
 const slideData = [
   {
-    title: 'Hello',
-    description: 'HEllo',
+    title: 'SFETA IT PLATFORM',
+    description: `Siz bu platforma orqali bepul kop malumotlar urganishingiz mumkin
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur ratione quod magnam nostrum deleniti? Porro reiciendis, vitae dolorem corrupti perferendis reprehenderit consequuntur odio dolor assumenda repellendus vel molestias officia obcaecati.
+    `,
     image: Images.Test
   },
   {
-    title: 'Hello',
-    description: 'HEllo',
+    title: 'SFETA IT PLATFORM',
+    description: `Siz bu platforma orqali bepul kop malumotlar urganishingiz mumkin
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur ratione quod magnam nostrum deleniti? Porro reiciendis, vitae dolorem corrupti perferendis reprehenderit consequuntur odio dolor assumenda repellendus vel molestias officia obcaecati.
+    `,
     image: Images.Test
   },
   {
-    title: 'Hello',
-    description: 'HEllo',
+    title: 'SFETA IT PLATFORM',
+    description: `Siz bu platforma orqali bepul kop malumotlar urganishingiz mumkin
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur ratione quod magnam nostrum deleniti? Porro reiciendis, vitae dolorem corrupti perferendis reprehenderit consequuntur odio dolor assumenda repellendus vel molestias officia obcaecati.
+    `,
     image: Images.Test
   },
   {
-    title: 'Title',
-    description: 'HEllo',
+    title: 'SFETA IT PLATFORM',
+    description: `Siz bu platforma orqali bepul kop malumotlar urganishingiz mumkin
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur ratione quod magnam nostrum deleniti? Porro reiciendis, vitae dolorem corrupti perferendis reprehenderit consequuntur odio dolor assumenda repellendus vel molestias officia obcaecati.
+    `,
+    image: Images.Test
+  },
+  {
+    title: 'SFETA IT PLATFORM',
+    description: `Siz bu platforma orqali bepul kop malumotlar urganishingiz mumkin
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur ratione quod magnam nostrum deleniti? Porro reiciendis, vitae dolorem corrupti perferendis reprehenderit consequuntur odio dolor assumenda repellendus vel molestias officia obcaecati.
+    `,
     image: Images.Test
   },
 ];
-const navItems = [
-  { name: 'Home', link: '/' },
-  { name: 'Courses', link: '/courses' },
-  { name: 'Profile', link: '/profile' },
-];
-
 
 const CardsMap = [
   {
@@ -72,6 +83,7 @@ export default function Home() {
   return (
 
     <div style={{ backgroundColor: bgColorBody }} className='font-semibold'>
+      <title>Sfera uz | Dasturlash kurslari</title>
       <Navbar />
       <div className='container my-0' >
         <QueryClientProvider client={queryClient}>
@@ -81,10 +93,11 @@ export default function Home() {
         <div className="">
           <HeaderTitles text='Kursla' size='text-5xl' />
           <Card projects={CardsMap} />
-          <HeaderTitles text='Contact us'/>
+          <HeaderTitles text='Contact us' />
+          <ContactUs />
         </div>
       </div>
-
+      <Footer />
     </div>
   );
 }

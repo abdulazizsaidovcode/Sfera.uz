@@ -57,7 +57,7 @@ export const HoverEffect = ({
                         <CardTitle>{item.title}</CardTitle>
                         <CardDescription>{item.description}</CardDescription>
                         {/* Example usage of the Button component */}
-                        <button className="text-[20px] text-white border px-6 p-1 mt-4">
+                        <button className="text-[20px] rounded text-white border px-6 pb-1 mt-4">
                             view
                         </button>
                     </Card>
