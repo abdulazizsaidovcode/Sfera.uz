@@ -7,15 +7,17 @@ import { BackgroundLines } from "@/components/ui/background-lines";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importing icons from react-icons/fa
 import { usePost } from "@/context/globalFunctions/usePostOption";
 import { BASE_URL } from "@/context/api/api";
-import { bgColor, bgColorBody } from "@/components/Colors";
 import HeaderTitles from "@/components/Text/HeadText";
 import Image from "next/image";
 import Images from "@/assets/ImgSend";
 import { Cover } from "@/components/ui/cover";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
 import Link from "next/link";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function SignupFormDemo() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     phoneNumber: "",
     password: "",
@@ -26,7 +28,7 @@ export default function SignupFormDemo() {
   const { error, loading, postData, response } = usePost(
     `${BASE_URL}auth/login`,
     {
-      phoneNumber: `+998${formData.phoneNumber}`,
+      phoneNumber: `998${formData.phoneNumber}`,
       password: formData.password,
     }
   );
@@ -69,19 +71,28 @@ export default function SignupFormDemo() {
     }));
   };
 
-  const handleSubmit = () => {
-    
+  const handleSubmit = async () => {
+    // Final validation before submission
     if (formData.phoneNumber.length === 9 && formData.password.length >= 4) {
-      postData();
+      try {
+        await postData(); // postData tugaguncha kutish
+        if (response) {
+          localStorage.setItem("token", response?.token);
+          router.push("/student/dashboard");
+        }
+      } catch (error) {
+        // Xato ro'y berganda
+        console.log("Login failed: ", error);
+        toast.error("Login failed. Please try again.");
+      }
     }
   };
 
   return (
     <BackgroundLines className="flex items-center justify-center w-full flex-col px-4">
       <BackgroundGradient className="overflow-hidden rounded-2xl dark:bg-zinc-900">
-
         <div
-          className={`max-w-md w-full rounded-2xl mx-auto p-4 md:p-8 shadow-input bg-[${bgColor}] dark:bg-black z-10`}
+          className={`max-w-md w-full rounded-2xl mx-auto p-4 md:p-8 shadow-input bg-[#6A9C89] dark:bg-black z-10`}
         >
           <div className="w-full flex items-center justify-center mb-6">
             <Image alt="." src={Images.Logo} width={150} />
@@ -114,7 +125,9 @@ export default function SignupFormDemo() {
                 </button>
               </div>
               {formData.phoneError && (
-                <p className="text-red-500 text-sm mt-1">{formData.phoneError}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {formData.phoneError}
+                </p>
               )}
             </LabelInputContainer>
             <LabelInputContainer className="mb-4">
@@ -145,12 +158,18 @@ export default function SignupFormDemo() {
             </LabelInputContainer>
 
             <button
-              className={`bg-[${bgColorBody}] flex justify-center items-center pb-2 relative group/btn dark:from-zinc-900 dark:to-zinc-900 dark:bg-zinc-800 w-full rounded-md shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]`}
+              className={`bg-[${
+                loading ? "#16423C" : "#E9EFEC"
+              }] flex justify-center items-center pb-2 relative group/btn dark:from-zinc-900 dark:to-zinc-900 dark:bg-zinc-800 w-full rounded-md shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]`}
               onClick={() => {
-                handleSubmit()
+                handleSubmit();
               }}
             >
-              <HeaderTitles text="Log in" size="text-lg" />
+              <HeaderTitles
+                color={loading ? "text-[#E9EFEC]" : "text-transparent"}
+                text={loading ? "loading..." : "Log in"}
+                size="text-lg"
+              />
               <BottomGradient />
             </button>
 

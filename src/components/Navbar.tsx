@@ -53,7 +53,7 @@ export default function Navbar() {
                 <div>
                     <Link href="/auth/login" passHref>
                         <Button
-                            size="text-lg"
+                            size="large"
                             text="Log-in"
                             isScrolled={isScrolled}
                         />
