@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube, FaTelegram, FaTiktok } from 'react-icons/fa';
 import Image from 'next/image';
 import Images from '@/assets/ImgSend';
 
@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
         <footer className="bg-[#16423C]  text-white py-6">
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <Image  src={Images.Logo} className='my-3' alt="Hero image" width={150}/>
+                <Image src={Images.Logo} className='my-3' alt="Hero image" width={150} />
                 <div className="flex flex-col md:flex-row justify-between">
                     {/* Footer Navigation */}
                     <div className="mb-6 md:mb-0">
@@ -33,17 +33,17 @@ const Footer: React.FC = () => {
                     <div className="mb-6 md:mb-0">
                         <h3 className="text-lg font-semibold mb-2">Follow Us</h3>
                         <div className="flex space-x-4">
-                            <a href="https://facebook.com" className="hover:text-blue-600">
-                                <FaFacebook size={24} />
+                            <a target='blank' href="https://youtube.com/itcityacademy/" className="hover:text-red-600">
+                                <FaYoutube size={24} />
                             </a>
-                            <a href="https://twitter.com" className="hover:text-blue-400">
-                                <FaTwitter size={24} />
+                            <a target='blank' href="https://t.me/itcity_academy" className="hover:text-blue-500">
+                                <FaTelegram size={24} />
                             </a>
-                            <a href="https://instagram.com" className="hover:text-pink-500">
+                            <a target='blank' href="https://www.instagram.com/itcity_academy/" className="hover:text-red-500">
                                 <FaInstagram size={24} />
                             </a>
-                            <a href="https://linkedin.com" className="hover:text-blue-700">
-                                <FaLinkedin size={24} />
+                            <a target='blank' href="https://tiktok.com" className="hover:text-black">
+                                <FaTiktok size={24} />
                             </a>
                         </div>
                     </div>
