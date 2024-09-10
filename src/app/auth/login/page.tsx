@@ -26,7 +26,7 @@ export default function SignupFormDemo() {
   const { error, loading, postData, response } = usePost(
     `${BASE_URL}auth/login`,
     {
-      phoneNumber: `998${formData.phoneNumber}`,
+      phoneNumber: `+998${formData.phoneNumber}`,
       password: formData.password,
     }
   );
@@ -78,10 +78,10 @@ export default function SignupFormDemo() {
 
   return (
     <BackgroundLines className="flex items-center justify-center w-full flex-col px-4">
-      <BackgroundGradient className=" overflow-hidden rounded-none md:rounded-2xl dark:bg-zinc-900">
+      <BackgroundGradient className="overflow-hidden rounded-2xl dark:bg-zinc-900">
 
       <div
-        className={`max-w-md w-full mx-auto p-4 md:p-8 shadow-input bg-[${bgColor}] dark:bg-black z-10`}
+        className={`max-w-md w-full rounded-2xl mx-auto p-4 md:p-8 shadow-input bg-[${bgColor}] dark:bg-black z-10`}
       >
         <div className="w-full flex items-center justify-center mb-6">
           <Image alt="." src={Images.Logo} width={150} />
@@ -156,7 +156,7 @@ export default function SignupFormDemo() {
 
           <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-5 h-[1px] w-full" />
 
-          <div className="flex justify-center items-center w-full gap-3">
+          <div className="flex flex-col md:flex-row justify-center items-center w-full gap-3">
             <p className="text-white text-lg font-semibold text-center max-w-sm dark:text-neutral-300">
               I have not account.
             </p>
