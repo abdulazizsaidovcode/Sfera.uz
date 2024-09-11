@@ -38,22 +38,16 @@ const Dashboard = () => {
   ];
   return (
     <SidebarDemo>
-      <title>Sfera uz | Kurslar</title>
-      <div className={` p-2 md:p-10 w-full dark:bg-black bg-white dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex items-center justify-center`}>
-        {/* Radial gradient for the container to give a faded look */}
-        <div className={`absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]`}></div>
+  <title>Sfera uz | Kurslar</title>
+  <div className="relative p-2 md:p-10 w-full min-h-screen overflow-y-auto dark:bg-black bg-[${bgColorBody}] dark:bg-dot-white/[0.2] bg-dot-black/[0.3]">
+    {/* Radial gradient for the container to give a faded look */}
+    <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-[${bgColorBody}] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
 
-        <HoverEffect items={CardsMap} />
-        <div className="flex gap-2 flex-1">
-          {[...new Array(2)].map((i) => (
-            <div
-              key={"second-array" + i}
-              className="h-full w-full rounded-lg  bg-gray-100 dark:bg-neutral-800 animate-pulse"
-            ></div>
-          ))}
-        </div>
-      </div>
-    </SidebarDemo>
+    <div className="relative z-10 flex flex-wrap justify-center gap-4">
+      <HoverEffect items={CardsMap} />
+    </div>
+  </div>
+</SidebarDemo>
   );
 };
 

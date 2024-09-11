@@ -89,6 +89,7 @@ export default function SignupFormDemo() {
 
   return (
     <BackgroundLines className="flex items-center justify-center w-full flex-col px-4">
+      
       <BackgroundGradient className="overflow-hidden rounded-2xl dark:bg-zinc-900">
       <title>Sfera uz | Tizimga kirish</title>
         <div
