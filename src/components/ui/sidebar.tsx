@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { IoMenu, IoClose } from "react-icons/io5";
 import Images from "@/assets/ImgSend";
 import Image from "next/image";
+import { bgColorBody, BorderColor } from "../Colors";
 
 interface Links {
   label: string;
@@ -91,11 +92,11 @@ export const DesktopSidebar = ({
     <>
       <motion.div
         className={cn(
-          "h-full px-4 py-4 hidden md:flex md:flex-col bg-[#6A9C89] dark:bg-neutral-800 w-[300px] flex-shrink-0",
+          `h-full px-4 py-4 hidden md:flex md:flex-col bg-[${BorderColor}] dark:bg-neutral-800 w-[300px] flex-shrink-0`,
           className
         )}
         animate={{
-          width: animate ? (open ? "280px" : "80px") : "300px",
+          width: animate ? (open ? "280px" : "80px") : "280px",
         }}
         onMouseEnter={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}
@@ -117,18 +118,19 @@ export const MobileSidebar = ({
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-[#6A9C89] dark:bg-neutral-800 w-full"
+          `h-10 px-4 py-7 flex flex-row md:hidden items-center justify-between bg-[${BorderColor}] dark:bg-neutral-800 w-full`
         )}
         {...props}
       >
         <div className="flex justify-between items-center z-20 w-full">
           <Image
-            src={Images.Logo1}
+            src={Images.Logo}
             className="h-[30px] w-[100px] flex-shrink-0"
             alt="Avatar"
           />
           <IoMenu
-            className="text-neutral-800 dark:text-neutral-200"
+          size={25}
+            className={`text-[${bgColorBody}] dark:text-neutral-200`}
             onClick={() => setOpen(!open)}
           />
         </div>
@@ -143,15 +145,17 @@ export const MobileSidebar = ({
                 ease: "easeInOut",
               }}
               className={cn(
-                "fixed h-full w-full inset-0 bg-[#6A9C89] dark:bg-neutral-900 p-10 z-[100] flex flex-col justify-between",
+                `fixed h-full w-full inset-0 bg-[${BorderColor}] dark:bg-neutral-900 p-10 z-[100] flex flex-col justify-between`,
                 className
               )}
             >
               <div
-                className="absolute right-10 top-10 z-50 text-neutral-800 dark:text-neutral-200"
+                className="absolute right-5 top-5 z-50 text-neutral-800 dark:text-neutral-200"
                 onClick={() => setOpen(!open)}
               >
-                <IoClose />
+                <IoClose
+                 size={30}
+            className={`text-[${bgColorBody}] dark:text-neutral-200`}/>
               </div>
               {children}
             </motion.div>

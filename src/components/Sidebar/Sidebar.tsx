@@ -100,7 +100,7 @@ export const Logo = () => {
         className="font-medium text-black dark:text-white whitespace-pre"
       >
         <Image
-          src={Images.Logo1}
+          src={Images.Logo}
           className="h-[48px] w-[100%] flex-shrink-0"
           alt="Avatar"
         />
