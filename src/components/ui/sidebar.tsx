@@ -3,7 +3,9 @@ import { cn } from "@/lib/utils";
 import Link, { LinkProps } from "next/link";
 import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { IoMenu, IoClose  } from "react-icons/io5";
+import { IoMenu, IoClose } from "react-icons/io5";
+import Images from "@/assets/ImgSend";
+import Image from "next/image";
 
 interface Links {
   label: string;
@@ -93,7 +95,7 @@ export const DesktopSidebar = ({
           className
         )}
         animate={{
-          width: animate ? (open ? "300px" : "70px") : "300px",
+          width: animate ? (open ? "280px" : "80px") : "300px",
         }}
         onMouseEnter={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}
@@ -115,11 +117,16 @@ export const MobileSidebar = ({
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-neutral-100 dark:bg-neutral-800 w-full"
+          "h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-[#6A9C89] dark:bg-neutral-800 w-full"
         )}
         {...props}
       >
-        <div className="flex justify-end z-20 w-full">
+        <div className="flex justify-between items-center z-20 w-full">
+          <Image
+            src={Images.Logo1}
+            className="h-[30px] w-[100px] flex-shrink-0"
+            alt="Avatar"
+          />
           <IoMenu
             className="text-neutral-800 dark:text-neutral-200"
             onClick={() => setOpen(!open)}
@@ -136,7 +143,7 @@ export const MobileSidebar = ({
                 ease: "easeInOut",
               }}
               className={cn(
-                "fixed h-full w-full inset-0 bg-white dark:bg-neutral-900 p-10 z-[100] flex flex-col justify-between",
+                "fixed h-full w-full inset-0 bg-[#6A9C89] dark:bg-neutral-900 p-10 z-[100] flex flex-col justify-between",
                 className
               )}
             >

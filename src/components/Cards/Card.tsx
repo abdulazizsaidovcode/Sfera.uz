@@ -1,7 +1,7 @@
 import { BackgroundBeamsWithCollision } from "../ui/background-beams-with-collision";
 import { HoverEffect } from "../ui/card-hover-effect";
 
-export function Card({ projects }) {
+export function Card({ projects } : {projects: any}) {
     return (
         <BackgroundBeamsWithCollision>
             <div className="w-full mx-auto">

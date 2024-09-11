@@ -4,7 +4,7 @@ import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { BackgroundLines } from "@/components/ui/background-lines";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; 
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importing icons from react-icons/fa
 import { usePost } from "@/context/globalFunctions/usePostOption";
 import { BASE_URL } from "@/context/api/api";
 import HeaderTitles from "@/components/Text/HeadText";
@@ -32,10 +32,13 @@ export default function SignupFormDemo() {
       password: formData.password,
     }
   );
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
+
+    // Handle phone number validation
     if (id === "phone") {
-      const numericValue = value.replace(/\D/g, ""); 
+      const numericValue = value.replace(/\D/g, ""); // Remove non-numeric characters
       if (numericValue.length <= 9) {
         setFormData((prev) => ({
           ...prev,
@@ -45,8 +48,10 @@ export default function SignupFormDemo() {
               ? "Phone number must be exactly 9 digits."
               : "",
         }));
-      } 
+      }
     }
+
+    // Handle password validation
     if (id === "password") {
       setFormData((prev) => ({
         ...prev,
@@ -67,14 +72,16 @@ export default function SignupFormDemo() {
   };
 
   const handleSubmit = async () => {
+    // Final validation before submission
     if (formData.phoneNumber.length === 9 && formData.password.length >= 4) {
       try {
-        await postData();
+        await postData(); // postData tugaguncha kutish
         if (response) {
           localStorage.setItem("token", response?.token);
           router.push("/student/dashboard");
         }
       } catch (error) {
+        // Xato ro'y berganda
         console.log("Login failed: ", error);
         toast.error("Login failed. Please try again.");
       }

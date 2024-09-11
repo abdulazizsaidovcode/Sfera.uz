@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
-import { FaArrowLeft, FaUser } from "react-icons/fa6";
-import { HiMiniCommandLine } from "react-icons/hi2";
-import { IoSettings } from "react-icons/io5";
+import { RiDashboardHorizontalFill } from "react-icons/ri";
+import { PiStudentBold, PiCodeBold } from "react-icons/pi";
+import { BiLogOut } from "react-icons/bi";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -17,31 +17,31 @@ export default function SidebarDemo({
 }) {
   const links = [
     {
-      label: "Dashboard",
-      href: "#",
+      label: "Bosh sahifa",
+      href: "/student/dashboard",
       icon: (
-        <HiMiniCommandLine className="text-[#E9EFEC] dark:text-neutral-200 h-7 w-7 flex-shrink-0" />
+        <RiDashboardHorizontalFill className="text-[#E9EFEC] dark:text-neutral-200 h-7 w-7 flex-shrink-0" />
       ),
     },
     {
-      label: "Profile",
-      href: "#",
+      label: "Kurslar",
+      href: "/student/courses",
       icon: (
-        <FaUser className="text-[#E9EFEC] dark:text-neutral-200 h-7 w-7 flex-shrink-0" />
+        <PiCodeBold className="text-[#E9EFEC] dark:text-neutral-200 h-7 w-7 flex-shrink-0" />
       ),
     },
     {
-      label: "Settings",
-      href: "#",
+      label: "Profil",
+      href: "/student/profile",
       icon: (
-        <IoSettings className="text-[#E9EFEC] dark:text-neutral-200 h-7 w-7 flex-shrink-0" />
+        <PiStudentBold className="text-[#E9EFEC] dark:text-neutral-200 h-7 w-7 flex-shrink-0" />
       ),
     },
     {
       label: "Logout",
-      href: "#",
+      href: "/auth/login",
       icon: (
-        <FaArrowLeft className="text-[#E9EFEC] dark:text-neutral-200 h-7 w-7 flex-shrink-0" />
+        <BiLogOut className="text-[#E9EFEC] dark:text-neutral-200 h-7 w-7 flex-shrink-0" />
       ),
     },
   ];
@@ -56,22 +56,23 @@ export default function SidebarDemo({
       <Sidebar open={open} setOpen={setOpen}>
         <SidebarBody className="justify-between gap-10">
           <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-            {open ? <Logo /> : <LogoIcon />}
-            <div className="mt-8 flex flex-col gap-2">
+          {open ? <Logo /> : <LogoIcon />}
+          {/* {open ? <LogoIcon /> : <LogoIcon />} */}
+            <div className="mt-8 ms-2 flex flex-col gap-2">
               {links.map((link, idx) => (
                 <SidebarLink key={idx} link={link} />
               ))}
             </div>
           </div>
-          <div>
+          <div className="w-full flex ps-[6px] items-center">
             <SidebarLink
               link={{
                 label: "Manu Arora",
                 href: "#",
                 icon: (
                   <Image
-                    src={Images.Logo1}
-                    className="h-7 w-7 flex-shrink-0 rounded-full"
+                    src={Images.Avatar}
+                    className="h-[40px] w-[40px] flex-shrink-0 rounded-full"
                     width={50}
                     height={50}
                     alt="Avatar"
@@ -92,13 +93,17 @@ export const Logo = () => {
       href="#"
       className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
     >
-      <div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
+      
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="font-medium text-black dark:text-white whitespace-pre"
       >
-        Acet Labs
+        <Image
+          src={Images.Logo1}
+          className="h-[48px] w-[100%] flex-shrink-0"
+          alt="Avatar"
+        />
       </motion.span>
     </Link>
   );
@@ -107,11 +112,13 @@ export const LogoIcon = () => {
   return (
     <Link
       href="#"
-      className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
+      className="font-normal flex items-center py-1 relative z-20"
     >
-      <div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
+       <Image
+          src={Images.LogoMini}
+          className="h-[48px] w-[48px]"
+          alt="Avatar"
+        />
     </Link>
   );
 };
-
-
