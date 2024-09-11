@@ -1,5 +1,5 @@
-import React from "react";
 import SidebarDemo from "@/components/Sidebar/Sidebar";
+import React from "react";
 
 const Dashboard = () => {
   return (

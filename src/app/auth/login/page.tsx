@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -15,6 +15,7 @@ import { BackgroundGradient } from "@/components/ui/background-gradient";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { bgColor, BorderColor } from "@/components/Colors";
 
 export default function SignupFormDemo() {
   const router = useRouter();
@@ -32,6 +33,14 @@ export default function SignupFormDemo() {
       password: formData.password,
     }
   );
+
+  useEffect(() => {
+    if (response) {
+      localStorage.setItem("token", response?.token);
+      localStorage.setItem("role", response?.role);
+      router.push("/student/dashboard");
+    }
+  }, [response?.role, response?.token])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -74,17 +83,7 @@ export default function SignupFormDemo() {
   const handleSubmit = async () => {
     // Final validation before submission
     if (formData.phoneNumber.length === 9 && formData.password.length >= 4) {
-      try {
         await postData(); // postData tugaguncha kutish
-        if (response) {
-          localStorage.setItem("token", response?.token);
-          router.push("/student/dashboard");
-        }
-      } catch (error) {
-        // Xato ro'y berganda
-        console.log("Login failed: ", error);
-        toast.error("Login failed. Please try again.");
-      }
     }
   };
 
@@ -92,7 +91,7 @@ export default function SignupFormDemo() {
     <BackgroundLines className="flex items-center justify-center w-full flex-col px-4">
       <BackgroundGradient className="overflow-hidden rounded-2xl dark:bg-zinc-900">
         <div
-          className={`max-w-md w-full rounded-2xl mx-auto p-4 md:p-8 shadow-input bg-[#6A9C89] dark:bg-black z-10`}
+          className={`max-w-md w-full rounded-2xl mx-auto p-4 md:p-8 shadow-input bg-[${bgColor}] dark:bg-black z-10`}
         >
           <div className="w-full flex items-center justify-center mb-6">
             <Image alt="." src={Images.Logo} width={150} />
@@ -159,7 +158,7 @@ export default function SignupFormDemo() {
 
             <button
               className={`bg-[${
-                loading ? "#16423C" : "#E9EFEC"
+                loading ? BorderColor : "#E9EFEC"
               }] flex justify-center items-center pb-2 relative group/btn dark:from-zinc-900 dark:to-zinc-900 dark:bg-zinc-800 w-full rounded-md shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]`}
               onClick={() => {
                 handleSubmit();
