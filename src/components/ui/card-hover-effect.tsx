@@ -1,11 +1,9 @@
+"use client"
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
 import { bgColor, BorderColor, TitleTextColor } from "../Colors";
-const borderColorClass = `border-[#16423C]`;
-const textColorClass = `text-${TitleTextColor}`;
-const hoverBgColorClass = `hover:bg-${BorderColor}`;
 
 export const HoverEffect = ({
     items,
@@ -24,7 +22,7 @@ export const HoverEffect = ({
     return (
         <div
             className={cn(
-                "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-5 py-10",
+                "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-full gap-5 py-10",
                 className
             )}
         >
