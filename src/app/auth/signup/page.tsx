@@ -17,17 +17,19 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-export default function SignupFormDemo() {
+export default function Signup() {
     const [formData, setFormData] = useState({
         phoneNumber: "",
         lastname: "",
         firstname: "",
         password: "",
+        confirmPassword: "",
         isPasswordVisible: false,
         firstnameError: "",
         lastnameError: "",
         phoneError: "",
         passwordError: "",
+        confirmPasswordError: "",
     });
     const { error, loading, postData, response } = usePost(
         `${Regester}`,
@@ -82,6 +84,15 @@ export default function SignupFormDemo() {
                     value.length < 5
                         ? "Password must be at least 5 characters long."
                         : "",
+                confirmPasswordError: value === formData.confirmPassword ? "" : "Passwords do not match.", // Check if passwords match
+            }));
+        }
+
+        if (id === "confirmPassword") {
+            setFormData((prev) => ({
+                ...prev,
+                confirmPassword: value,
+                confirmPasswordError: value === formData.password ? "" : "Passwords do not match.", // Check if passwords match
             }));
         }
     };
@@ -94,58 +105,81 @@ export default function SignupFormDemo() {
     };
 
     const handleSubmit = async () => {
-        if (formData.phoneNumber.length === 9 && formData.password.length >= 4) {
+        if (
+            formData.phoneNumber.length === 9 &&
+            formData.password.length >= 4 &&
+            formData.password === formData.confirmPassword
+        ) {
             try {
                 await postData();
-                response  && toast.success( 'Kirildi')
+                response && toast.success("Registered successfully");
                 router.push('/auth/login');
+                setFormData({
+                    phoneNumber: "",
+                    lastname: "",
+                    firstname: "",
+                    password: "",
+                    confirmPassword: "",
+                    isPasswordVisible: false,
+                    firstnameError: "",
+                    lastnameError: "",
+                    phoneError: "",
+                    passwordError: "",
+                    confirmPasswordError: "",
+                });
             } catch (err) {
-                // console.error("Signup failed:", err);
-                // toast.error('')
+                // Handle error
             }
+        } else if (formData.password !== formData.confirmPassword) {
+            setFormData((prev) => ({
+                ...prev,
+                confirmPasswordError: "Passwords do not match.",
+            }));
         }
     };
 
     return (
         <BackgroundLines className="flex items-center justify-center w-full flex-col px-4">
             <BackgroundGradient className=" overflow-hidden rounded-none md:rounded-2xl dark:bg-zinc-900">
-                <div className={`lg:min-w-[500px] w-[300px] mx-auto p-4 md:p-8 shadow-input bg-[${bgColor}] dark:bg-black z-10`}>
+                <div className={`lg:min-w-[500px] w-[300px] mx-auto p-4 md:p-8 pb-0 shadow-input bg-[${bgColor}] dark:bg-black z-10`}>
                     <div className="w-full flex items-center justify-center mb-6">
                         <Image alt="." src={Images.Logo} width={150} />
                     </div>
                     <h1 className="text-xl font-semibold text-white">Create your account</h1>
                     <div className="my-8">
-                        <LabelInputContainer className="md:mb-4 mb-2">
-                            <Label className="text-white font-semibold" htmlFor="firstname">
-                                First Name
-                            </Label>
-                            <Input
-                                id="firstname"
-                                placeholder="First Name"
-                                type="text"
-                                value={formData.firstname}
-                                onChange={handleChange}
-                            />
-                            {formData.firstnameError && (
-                                <p className="text-red-500 text-sm mt-1">{formData.firstnameError}</p>
-                            )}
-                        </LabelInputContainer>
+                        <div className="flex">
+                            <LabelInputContainer className="md:mb-4 mb-2">
+                                <Label className="text-white font-semibold" htmlFor="firstname">
+                                    First Name
+                                </Label>
+                                <Input
+                                    id="firstname"
+                                    placeholder="First Name"
+                                    type="text"
+                                    value={formData.firstname}
+                                    onChange={handleChange}
+                                />
+                                {formData.firstnameError && (
+                                    <p className="text-red-500 text-sm mt-1">{formData.firstnameError}</p>
+                                )}
+                            </LabelInputContainer>
 
-                        <LabelInputContainer className="md:mb-4 mb-2">
-                            <Label className="text-white font-semibold" htmlFor="lastname">
-                                Last Name
-                            </Label>
-                            <Input
-                                id="lastname"
-                                placeholder="Last Name"
-                                type="text"
-                                value={formData.lastname}
-                                onChange={handleChange}
-                            />
-                            {formData.lastnameError && (
-                                <p className="text-red-500 text-sm mt-1">{formData.lastnameError}</p>
-                            )}
-                        </LabelInputContainer>
+                            <LabelInputContainer className="md:mb-4 mb-2">
+                                <Label className="text-white font-semibold" htmlFor="lastname">
+                                    Last Name
+                                </Label>
+                                <Input
+                                    id="lastname"
+                                    placeholder="Last Name"
+                                    type="text"
+                                    value={formData.lastname}
+                                    onChange={handleChange}
+                                />
+                                {formData.lastnameError && (
+                                    <p className="text-red-500 text-sm mt-1">{formData.lastnameError}</p>
+                                )}
+                            </LabelInputContainer>
+                        </div>
 
                         <LabelInputContainer className="md:mb-4 mb-2">
                             <Label className="text-white font-semibold" htmlFor="phone">
@@ -164,7 +198,6 @@ export default function SignupFormDemo() {
                                 <button
                                     type="button"
                                     className="absolute inset-y-0 left-0 flex items-center pl-3"
-                                    onClick={handlePasswordToggle}
                                 >
                                     +998
                                 </button>
@@ -201,12 +234,32 @@ export default function SignupFormDemo() {
                             )}
                         </LabelInputContainer>
 
+                        <LabelInputContainer className="md:mb-4 mb-2">
+                            <Label className="text-white font-semibold" htmlFor="confirmPassword">
+                                Confirm Password
+                            </Label>
+                            <div className="relative">
+                                <Input
+                                    id="confirmPassword"
+                                    placeholder="•••••"
+                                    type={formData.isPasswordVisible ? "text" : "password"}
+                                    value={formData.confirmPassword}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            {formData.confirmPasswordError && (
+                                <p className="text-red-500 text-sm mt-1">
+                                    {formData.confirmPasswordError}
+                                </p>
+                            )}
+                        </LabelInputContainer>
+
                         <button
                             disabled={loading}
-                            className={`${loading? 'bg-[#3d857b]    ':"bg-[#E9EFEC] "} flex justify-center items-center pb-2 relative group/btn dark:from-zinc-900 dark:to-zinc-900 dark:bg-zinc-800 w-full rounded-md shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]`}
+                            className={`${loading ? 'bg-[#3d857b]' : "bg-[#E9EFEC]"} flex justify-center items-center pb-2 relative group/btn dark:from-zinc-900 dark:to-zinc-900 dark:bg-zinc-800 w-full rounded-md shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]`}
                             onClick={handleSubmit}
                         >
-                            <HeaderTitles color={loading ? "text-white" : "text-transparent"} text={loading ?'loading....' :"Sign-up"} size="text-lg" />
+                            <HeaderTitles color={loading ? "text-white" : "text-transparent"} text={loading ? 'loading....' : "Sign-up"} size="text-lg" />
                             <BottomGradient />
                         </button>
 

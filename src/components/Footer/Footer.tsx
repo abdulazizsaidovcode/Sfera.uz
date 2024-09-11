@@ -42,13 +42,11 @@ const Footer: React.FC = () => {
                             <a target='blank' href="https://www.instagram.com/itcity_academy/" className="hover:text-red-500">
                                 <FaInstagram size={24} />
                             </a>
-                            <a target='blank' href="https://tiktok.com" className="hover:text-black">
+                            <a target='blank' href="https://tiktok.com/itcity_academy" className="hover:text-black">
                                 <FaTiktok size={24} />
                             </a>
                         </div>
                     </div>
-
-                    {/* Additional Information */}
                     <div className='flex flex-col gap-2'>
                         <h3 className="text-lg font-semibold mb-2">Contact Us</h3>
                         <p className="text-sm">+998508890037</p>
@@ -57,8 +55,6 @@ const Footer: React.FC = () => {
                         <p className="text-sm">Phone: (123) 456-7890</p>
                     </div>
                 </div>
-
-                {/* Footer Bottom */}
                 <div className="mt-6 border-t border-gray-700 pt-4 text-center">
                     <p className="text-sm">&copy; {new Date().getFullYear()} Your Company. All rights reserved.</p>
                 </div>
