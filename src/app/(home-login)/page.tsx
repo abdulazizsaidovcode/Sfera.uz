@@ -27,27 +27,6 @@ const slideData = [
     `,
     image: Images.Test
   },
-  {
-    title: 'SFETA IT PLATFORM',
-    description: `Siz bu platforma orqali bepul kop malumotlar urganishingiz mumkin
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur ratione quod magnam nostrum deleniti? Porro reiciendis, vitae dolorem corrupti perferendis reprehenderit consequuntur odio dolor assumenda repellendus vel molestias officia obcaecati.
-    `,
-    image: Images.Test
-  },
-  {
-    title: 'SFETA IT PLATFORM',
-    description: `Siz bu platforma orqali bepul kop malumotlar urganishingiz mumkin
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur ratione quod magnam nostrum deleniti? Porro reiciendis, vitae dolorem corrupti perferendis reprehenderit consequuntur odio dolor assumenda repellendus vel molestias officia obcaecati.
-    `,
-    image: Images.Test
-  },
-  {
-    title: 'SFETA IT PLATFORM',
-    description: `Siz bu platforma orqali bepul kop malumotlar urganishingiz mumkin
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur ratione quod magnam nostrum deleniti? Porro reiciendis, vitae dolorem corrupti perferendis reprehenderit consequuntur odio dolor assumenda repellendus vel molestias officia obcaecati.
-    `,
-    image: Images.Test
-  },
 ];
 
 const CardsMap = [
