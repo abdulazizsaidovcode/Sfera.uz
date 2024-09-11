@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 export const HoverEffect = ({
     items,
     className,
-    fallbackUrl, 
+    fallbackUrl,
 }: {
     items: {
         title: string;
@@ -17,7 +17,7 @@ export const HoverEffect = ({
         imgSrc: string;
     }[];
     className?: string;
-    fallbackUrl?: string; 
+    fallbackUrl?: string;
 }) => {
     let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const router = useRouter();
@@ -25,9 +25,9 @@ export const HoverEffect = ({
     const handleNavigation = (link: string) => {
         const token = localStorage.getItem("token");
         if (token) {
-            router.push("/student/dashboard"); 
+            router.push(fallbackUrl || link);
         } else {
-            router.push(fallbackUrl || link); 
+            router.push("/auth/login"); 
         }
     };
 

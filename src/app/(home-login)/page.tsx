@@ -55,37 +55,37 @@ const CardsMap = [
     imgSrc: "https://picsum.photos/500/400",
     title: "Front-end",
     description: "Front-end full course",
-    link: '/auth/login',
+    link: "/student/dashboard",
   },
   {
     imgSrc: "https://picsum.photos/500/400",
     title: "Back-end ",
     description: "A technology company that builds economic infrastructure for the internet.",
-    link: '/auth/login',
+    link: "/student/dashboard",
   },
   {
     imgSrc: "https://picsum.photos/500/400",
     title: "3DS max",
     description: "A technology company that builds economic infrastructure for the internet.",
-    link: '/auth/login',
+    link: "/student/dashboard",
   },
   {
     imgSrc: "https://picsum.photos/500/400",
     title: "Graphic Design",
     description: "A technology company that builds economic infrastructure for the internet.",
-    link: '/auth/login',
+    link: "/student/dashboard",
   },
   {
     imgSrc: "https://picsum.photos/500/400",
     title: "Foundation",
     description: "A technology company that builds economic infrastructure for the internet.",
-    link: '/auth/login',
+    link: "/student/dashboard",
   },
   {
     imgSrc: "https://picsum.photos/500/400",
     title: "Robotatexnika",
     description: "A technology company that builds economic infrastructure for the internet.",
-    link: '/auth/login',
+    link: "/student/dashboard",
   },
 
 ];
