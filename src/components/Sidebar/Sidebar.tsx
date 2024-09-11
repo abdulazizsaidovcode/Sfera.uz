@@ -9,12 +9,17 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Images from "@/assets/ImgSend";
+import { useGet } from "@/context/globalFunctions/useGetOption";
+import { get_mee } from "@/context/api/api";
+import { config } from "@/context/api/token";
 
 export default function SidebarDemo({
   children,
 }: {
   children?: React.ReactNode;
 }) {
+  const { data, loading, error} = useGet(get_mee, config)
+  
   const links = [
     {
       label: "Bosh sahifa",
