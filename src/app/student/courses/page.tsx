@@ -1,11 +1,10 @@
 "use clent";
 import React from "react";
 import SidebarDemo from "@/components/Sidebar/Sidebar";
-import { bgColorBody } from "@/components/Colors";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 import { useGet } from "@/context/globalFunctions/useGetOption";
 
-const Dashboard = () => {
+const Courses = () => {
   // const {} = useGet()
   const CardsMap = [
     {
@@ -51,4 +50,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Courses;
