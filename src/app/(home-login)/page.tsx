@@ -27,27 +27,6 @@ const slideData = [
     `,
     image: Images.Test
   },
-  {
-    title: 'SFETA IT PLATFORM',
-    description: `Siz bu platforma orqali bepul kop malumotlar urganishingiz mumkin
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur ratione quod magnam nostrum deleniti? Porro reiciendis, vitae dolorem corrupti perferendis reprehenderit consequuntur odio dolor assumenda repellendus vel molestias officia obcaecati.
-    `,
-    image: Images.Test
-  },
-  {
-    title: 'SFETA IT PLATFORM',
-    description: `Siz bu platforma orqali bepul kop malumotlar urganishingiz mumkin
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur ratione quod magnam nostrum deleniti? Porro reiciendis, vitae dolorem corrupti perferendis reprehenderit consequuntur odio dolor assumenda repellendus vel molestias officia obcaecati.
-    `,
-    image: Images.Test
-  },
-  {
-    title: 'SFETA IT PLATFORM',
-    description: `Siz bu platforma orqali bepul kop malumotlar urganishingiz mumkin
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur ratione quod magnam nostrum deleniti? Porro reiciendis, vitae dolorem corrupti perferendis reprehenderit consequuntur odio dolor assumenda repellendus vel molestias officia obcaecati.
-    `,
-    image: Images.Test
-  },
 ];
 
 const CardsMap = [
@@ -85,14 +64,14 @@ const CardsMap = [
     imgSrc: "https://picsum.photos/500/400",
     title: "Robotatexnika",
     description: "A technology company that builds economic infrastructure for the internet.",
-    link: "/student/dashboard",
+    link: "/student/dashboard", 
   },
 
 ];
 export default function Home() {
   const [queryClient] = useState(() => new QueryClient());
 
-  return (
+  return ( 
 
     <div style={{ backgroundColor: bgColorBody }} className='font-semibold'>
       <title>Sfera uz | Dasturlash kurslari</title>
