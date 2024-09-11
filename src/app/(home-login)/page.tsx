@@ -64,14 +64,14 @@ const CardsMap = [
     imgSrc: "https://picsum.photos/500/400",
     title: "Robotatexnika",
     description: "A technology company that builds economic infrastructure for the internet.",
-    link: "/student/dashboard",
+    link: "/student/dashboard", 
   },
 
 ];
 export default function Home() {
   const [queryClient] = useState(() => new QueryClient());
 
-  return (
+  return ( 
 
     <div style={{ backgroundColor: bgColorBody }} className='font-semibold'>
       <title>Sfera uz | Dasturlash kurslari</title>
