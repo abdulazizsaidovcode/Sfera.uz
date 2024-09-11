@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import { RiDashboardHorizontalFill } from "react-icons/ri";
 import { PiStudentBold, PiCodeBold } from "react-icons/pi";
@@ -18,7 +18,12 @@ export default function SidebarDemo({
 }: {
   children?: React.ReactNode;
 }) {
-  const { data, loading, error} = useGet(get_mee, config)
+  const {data, getData, loading, error} = useGet(get_mee, config)
+  useEffect(() => {
+    getData()
+  }, [])
+
+  console.log("getmmmmmmmmmmmmmmm", data);
   
   const links = [
     {
@@ -72,7 +77,7 @@ export default function SidebarDemo({
           <div className="w-full flex ps-[6px] items-center">
             <SidebarLink
               link={{
-                label: "Manu Arora",
+              label: loading ? "Loading..." : data?.firstName ? data?.firstName : "Student",
                 href: "#",
                 icon: (
                   <Image
