@@ -75,6 +75,18 @@ const CardsMap = [
     description: "A technology company that builds economic infrastructure for the internet.",
     link: '/auth/login',
   },
+  {
+    imgSrc: "https://picsum.photos/500/400",
+    title: "Foundation",
+    description: "A technology company that builds economic infrastructure for the internet.",
+    link: '/auth/login',
+  },
+  {
+    imgSrc: "https://picsum.photos/500/400",
+    title: "Robotatexnika",
+    description: "A technology company that builds economic infrastructure for the internet.",
+    link: '/auth/login',
+  },
 
 ];
 export default function Home() {
@@ -94,7 +106,7 @@ export default function Home() {
           <HeaderTitles text='Kursla' size='text-5xl' />
           <Card projects={CardsMap} />
           <HeaderTitles text='Contact us' />
-          <ContactUs onSubmit={() => {}} />
+          <ContactUs onSubmit={() => { }} />
         </div>
       </div>
       <Footer />
