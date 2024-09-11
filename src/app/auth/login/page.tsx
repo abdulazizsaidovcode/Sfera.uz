@@ -36,11 +36,13 @@ export default function SignupFormDemo() {
 
   useEffect(() => {
     if (response) {
+      const expiryTime = new Date().getTime() + 24 * 60 * 60 * 1000;
+      localStorage.setItem("tokenExpiry", expiryTime.toString());
       localStorage.setItem("token", response?.token);
       localStorage.setItem("role", response?.role);
       router.push("/student/dashboard");
     }
-  }, [response?.role, response?.token])
+  }, [response?.role, response?.token]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -83,15 +85,14 @@ export default function SignupFormDemo() {
   const handleSubmit = async () => {
     // Final validation before submission
     if (formData.phoneNumber.length === 9 && formData.password.length >= 4) {
-        await postData(); // postData tugaguncha kutish
+      await postData(); // postData tugaguncha kutish
     }
   };
 
   return (
     <BackgroundLines className="flex items-center justify-center w-full flex-col px-4">
-      
       <BackgroundGradient className="overflow-hidden rounded-2xl dark:bg-zinc-900">
-      <title>Sfera uz | Tizimga kirish</title>
+        <title>Sfera uz | Tizimga kirish</title>
         <div
           className={`max-w-md w-full rounded-2xl mx-auto p-4 md:p-8 shadow-input bg-[${bgColor}] dark:bg-black z-10`}
         >
