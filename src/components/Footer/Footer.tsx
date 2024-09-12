@@ -15,11 +15,11 @@ const Footer: React.FC = () => {
                         <h3 className="text-lg font-semibold mb-2">Quick Links</h3>
                         <ul className="space-y-2">
                             <li>
-                                <a href="#home" className="hover:underline">Home</a>
+                                <a href="https://" className="hover:underline">Home</a>
                             </li>
                             <li>
                                 <a href="#about" className="hover:underline">About Us</a>
-                            </li>
+                            </li> 
                             <li>
                                 <a href="#services" className="hover:underline">Services</a>
                             </li>
@@ -29,7 +29,6 @@ const Footer: React.FC = () => {
                         </ul>
                     </div>
 
-                    {/* Social Media Links */}
                     <div className="mb-6 md:mb-0">
                         <h3 className="text-lg font-semibold mb-2">Follow Us</h3>
                         <div className="flex space-x-4">
