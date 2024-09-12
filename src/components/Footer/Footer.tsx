@@ -19,7 +19,7 @@ const Footer: React.FC = () => {
                             </li>
                             <li>
                                 <a href="#about" className="hover:underline">About Us</a>
-                            </li> 
+                            </li>
                             <li>
                                 <a href="#services" className="hover:underline">Services</a>
                             </li>
@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
                         <h3 className="text-lg font-semibold mb-2">Contact Us</h3>
                         <p className="text-sm">+998508890037</p>
                         <p className="text-sm">123 Main Street, Anytown, USA</p>
-                        <p className="text-sm">Email: info@example.com</p>
+                        <p className="text-sm"></p>
                         <p className="text-sm">Phone: (123) 456-7890</p>
                     </div>
                 </div>
