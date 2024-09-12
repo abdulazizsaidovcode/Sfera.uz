@@ -52,7 +52,7 @@ const Footer: React.FC = () => {
                         <p className="text-sm">123 Main Street, Anytown, USA</p>
                         <p className="text-sm"></p>
                         <p className="text-sm">Phone: (123) 456-7890</p>
-                    </div>
+                    </div>   
                 </div>
                 <div className="mt-6 border-t border-gray-700 pt-4 text-center">
                     <p className="text-sm">&copy; {new Date().getFullYear()} Your Company. All rights reserved.</p>

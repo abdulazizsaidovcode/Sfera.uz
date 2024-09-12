@@ -66,8 +66,8 @@ export default function Navbar() {
                             <Button
                                 size="large"
                                 text={isLoading ? <FiLoader className="animate-spin text-white" /> : "Log-in"}
-                                isSc                                                                                                                                                                                                                                                                                                                           rolled={isScrolled}
-                                onClick={handleLoginClick} // Handle button click
+                                isScrolled={isScrolled}
+                                onClick={handleLoginClick}
                             />
                         </Link>
                     </div>
