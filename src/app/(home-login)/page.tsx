@@ -73,7 +73,7 @@ export default function Home() {
 
   return ( 
 
-    <div style={{ backgroundColor: bgColorBody }} className='font-semibold'>
+    <div style={{ backgroundColor: bgColorBody }} className={`w-full bg-[${bgColorBody}] dark:bg-black relative  min-h-screen overflow-y-auto bg-[${bgColorBody}] dark:bg-dot-white/[0.2] bg-dot-black/[0.3]`}>
       <title>Sfera uz | Dasturlash kurslari</title>
       <Navbar />
       <div className='container my-0' >

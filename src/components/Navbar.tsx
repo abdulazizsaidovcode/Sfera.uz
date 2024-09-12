@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
-import { bgColor, TitleTextColor } from './Colors';
+import { bgColor, bgColorBody, TitleTextColor } from './Colors';
 import Button from './Button/Button';
 import Image from 'next/image';
 import Images from '@/assets/ImgSend';
@@ -37,7 +37,7 @@ export default function Navbar() {
 
     return (
         <div>
-            <div className={`fixed w-full z-50 px-6 md:px-24 py-4 transition-all border-b-2 border-[#16423C] duration-500 ${isScrolled ? 'bg-[#16423C] border-[#16423C] shadow-md text-white' : bgColor}`}>
+            <div className={`fixed w-full z-50 px-6 md:px-24 py-4 transition-all border-b-2 border-[#16423C] duration-500 ${isScrolled ? 'bg-[#16423C] border-[#16423C] shadow-md text-white' : `bg-[${bgColorBody}] border-[${bgColorBody}] shadow-md`}`}>
                 <div className="flex justify-between items-center">
                     <div className={`text-${TitleTextColor} text-2xl md:text-3xl font-bold`}>
                         {!isScrolled && (
@@ -66,7 +66,7 @@ export default function Navbar() {
                             <Button
                                 size="large"
                                 text={isLoading ? <FiLoader className="animate-spin text-white" /> : "Log-in"}
-                                isScrolled={isScrolled}
+                                isSc                                                                                                                                                                                                                                                                                                                           rolled={isScrolled}
                                 onClick={handleLoginClick} // Handle button click
                             />
                         </Link>

@@ -19,18 +19,8 @@ export default function SidebarDemo({
 }: {
   children?: React.ReactNode;
 }) {
-  const {data, getData, loading} = useGet(get_mee, Config())
   const {getMeeData, setGetMeeData} = useMeeStore()
-  useEffect(() => {
-    getData()
-  }, [])
-
-  useEffect(() => {
-    setGetMeeData(data)
-  }, [data])
-
-  console.log("getmmmmmmmmmmmmmmm", data);
-  
+ 
   const links = [
     {
       label: "Bosh sahifa",
@@ -83,7 +73,7 @@ export default function SidebarDemo({
           <div className="w-full flex ps-[6px] items-center">
             <SidebarLink
               link={{
-              label: loading ? "Loading..." : getMeeData?.firstName ? "" : "Student",
+              label: getMeeData?.firstName ? "" : "Student",
                 href: "#",
                 icon: (
                   <Image

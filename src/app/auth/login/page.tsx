@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { BackgroundLines } from "@/components/ui/background-lines";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Importing icons from react-icons/fa
 import { usePost } from "@/context/globalFunctions/usePostOption";
-import { BASE_URL } from "@/context/api/api";
+import { BASE_URL, get_mee } from "@/context/api/api";
 import HeaderTitles from "@/components/Text/HeadText";
 import Image from "next/image";
 import Images from "@/assets/ImgSend";
@@ -16,6 +16,9 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { bgColor, BorderColor } from "@/components/Colors";
+import { useGet } from "@/context/globalFunctions/useGetOption";
+import { Config } from "@/context/api/token";
+import useMeeStore from "@/context/state-management/getMeeStore/getMeeStore";
 
 export default function SignupFormDemo() {
   const router = useRouter();
@@ -34,12 +37,20 @@ export default function SignupFormDemo() {
     }
   );
 
+  const {data, getData, loading: getLoading} = useGet(get_mee, Config())
+  const { setGetMeeData } = useMeeStore()
+ 
   useEffect(() => {
+    setGetMeeData(data)
+  }, [data])
+
+  useEffect( () => {
     if (response) {
       const expiryTime = new Date().getTime() + 24 * 60 * 60 * 1000;
       localStorage.setItem("tokenExpiry", expiryTime.toString());
       localStorage.setItem("token", response?.token);
       localStorage.setItem("role", response?.role);
+      getData()
       router.push("/student/dashboard");
     }
   }, [response?.role, response?.token]);
