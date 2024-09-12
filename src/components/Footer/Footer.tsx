@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
                         <h3 className="text-lg font-semibold mb-2">Quick Links</h3>
                         <ul className="space-y-2">
                             <li>
-                                <a href="#home" className="hover:underline">Home</a>
+                                <a href="https://" className="hover:underline">Home</a>
                             </li>
                             <li>
                                 <a href="#about" className="hover:underline">About Us</a>
@@ -29,7 +29,6 @@ const Footer: React.FC = () => {
                         </ul>
                     </div>
 
-                    {/* Social Media Links */}
                     <div className="mb-6 md:mb-0">
                         <h3 className="text-lg font-semibold mb-2">Follow Us</h3>
                         <div className="flex space-x-4">
@@ -51,9 +50,9 @@ const Footer: React.FC = () => {
                         <h3 className="text-lg font-semibold mb-2">Contact Us</h3>
                         <p className="text-sm">+998508890037</p>
                         <p className="text-sm">123 Main Street, Anytown, USA</p>
-                        <p className="text-sm">Email: info@example.com</p>
+                        <p className="text-sm"></p>
                         <p className="text-sm">Phone: (123) 456-7890</p>
-                    </div>
+                    </div>   
                 </div>
                 <div className="mt-6 border-t border-gray-700 pt-4 text-center">
                     <p className="text-sm">&copy; {new Date().getFullYear()} Your Company. All rights reserved.</p>
