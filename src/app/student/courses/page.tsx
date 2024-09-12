@@ -14,10 +14,10 @@ const Courses = () => {
     getData();
   }, []);
 
-  const CardsMap = data?.map(() => ({
+  const CardsMap = data?.map((item: any) => ({
     imgSrc: "https://picsum.photos/500/400",
-    title: "3DS max",
-    description: "A technology company that builds economic infrastructure for the internet.",
+    title: item.name,
+    description: item.description,
     link: "/student/courses/module",
   }));
 
