@@ -4,7 +4,7 @@ import { bgColor, BorderColor, TitleTextColor } from '../Colors';
 
 interface ButtonProps {
     size: 'small' | 'medium' | 'large'; // Adjust based on your actual size options
-    text: string;
+    text: any;
     isScrolled?: boolean;
 }
 

@@ -32,44 +32,49 @@ export default function RootLayout({
   const [tokens, setTokens] = useState<string | null>(null);
   const [tokenExpiry, setTokenExpiry] = useState<string | null>(null);
 
-  useEffect(() => {
-    // Only access localStorage on the client
-    if (typeof window !== "undefined") {
-      const storedTokens = localStorage.getItem('token');
-      const storedTokenExpiry = localStorage.getItem('tokenExpiry');
-      setTokens(storedTokens);
-      setTokenExpiry(storedTokenExpiry);
-    }
-  }, []);
+  // Fetch tokens and token expiry from localStorage
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     const storedTokens = localStorage.getItem("token");
+  //     const storedTokenExpiry = localStorage.getItem("tokenExpiry");
+  //     setTokens(storedTokens);
+  //     setTokenExpiry(storedTokenExpiry);
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    const refresh = sessionStorage.getItem("refreshes");
+  // // Redirect and token logic
+  // useEffect(() => {
+  //   if (tokens) {
+  //     // If tokens exist, check their expiry
+  //     if (tokenExpiry) {
+  //       const now = new Date().getTime();
+  //       if (now > parseInt(tokenExpiry)) {
+  //         // Token is expired, clear storage and redirect
+  //         localStorage.clear();
+  //         router.push("/auth/login");
+  //       }
+  //     }
+  //   } else {
+  //     // Token is missing
+  //     if (pathname !== "/" && !pathname.startsWith("/auth")) {
+  //       // Only redirect if not on "/" or "/auth/*" pages
+  //       localStorage.clear();
+  //       router.push("/auth/login");
+  //     }
+  //   }
+  // }, [tokens, tokenExpiry, pathname, router]);
 
-    if (!tokens) {
-      sessionStorage.removeItem("refreshes");
-      if (!pathname.startsWith("/auth")) router.push("/auth/login");
-    } else if (!refresh) sessionStorage.setItem("refreshes", "true");
-  }, [tokens, pathname, router]);
+  // // Handle refresh logic
+  // useEffect(() => {
+  //   const refresh = sessionStorage.getItem("refreshes");
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-
-    if (tokens && tokenExpiry) {
-      const now = new Date().getTime();
-      if (now > parseInt(tokenExpiry)) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("tokenExpiry");
-        localStorage.removeItem("role");
-      }
-    } else {
-      localStorage.removeItem("token");
-      localStorage.removeItem("tokenExpiry");
-      localStorage.removeItem("role");
-    }
-
-    if (!tokens && !pathname.startsWith("/auth")) router.push("/auth/login");
-    if (!tokens && pathname.startsWith("/auth")) sessionStorage.removeItem("refreshes");
-  }, [pathname, tokens, tokenExpiry, router]);
+  //   if (!tokens && pathname !== "/" && !pathname.startsWith("/auth")) {
+  //     sessionStorage.removeItem("refreshes");
+  //     router.push("/auth/login");
+  //   } else if (!refresh) {
+  //     sessionStorage.setItem("refreshes", "true");
+  //   }
+  // }, [tokens, pathname, router]);
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -78,7 +83,6 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           {children}
-
           <Toaster position="bottom-right" reverseOrder={false} />
         </body>
       </html>
