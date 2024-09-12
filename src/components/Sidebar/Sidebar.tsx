@@ -13,6 +13,7 @@ import { useGet } from "@/context/globalFunctions/useGetOption";
 import { get_mee } from "@/context/api/api";
 import { Config } from "@/context/api/token";
 import useMeeStore from "@/context/state-management/getMeeStore/getMeeStore";
+import { useRouter } from "next/navigation";
 
 export default function SidebarDemo({
   children,
@@ -20,6 +21,8 @@ export default function SidebarDemo({
   children?: React.ReactNode;
 }) {
   const {getMeeData, setGetMeeData} = useMeeStore()
+
+  const route = useRouter()
  
   const links = [
     {
@@ -66,7 +69,12 @@ export default function SidebarDemo({
           {/* {open ? <LogoIcon /> : <LogoIcon />} */}
             <div className="mt-8 ms-2 flex flex-col gap-2">
               {links.map((link, idx) => (
-                <SidebarLink key={idx} link={link} />
+                <SidebarLink key={idx} link={link} onClick={() => {
+                  if (link.label === "Logout") {
+                    localStorage.clear()
+                    route.push("/auth/login")
+                  }
+                }} />
               ))}
             </div>
           </div>

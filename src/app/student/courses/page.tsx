@@ -8,21 +8,19 @@ import { get_category } from "@/context/api/api";
 import { Config } from "@/context/api/token";
 
 const Courses = () => {
-  const { data, getData, loading } = useGet(get_category, Config());
+  const { data, getData, loading } = useGet(get_category, Config().headers);
 
   useEffect(() => {
     getData();
   }, []);
 
-  // const CardsMap = data?.map(() => ({
-  //   imgSrc: "https://picsum.photos/500/400",
-  //   title: "3DS max",
-  //   description:
-  //     "A technology company that builds economic infrastructure for the internet.",
-  //   link: "/student/courses/module",
-  // }));
-  // console.log(data);
-  
+  const CardsMap = data?.map(() => ({
+    imgSrc: "https://picsum.photos/500/400",
+    title: "3DS max",
+    description: "A technology company that builds economic infrastructure for the internet.",
+    link: "/student/courses/module",
+  }));
+
 
   return (
     <SidebarDemo>
@@ -32,7 +30,7 @@ const Courses = () => {
         <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-[${bgColorBody}] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
 
         <div className="relative z-10 flex flex-wrap justify-center gap-4">
-          {/* <HoverEffect items={CardsMap} /> */}
+          <HoverEffect items={CardsMap ? CardsMap : null} />
         </div>
       </div>
     </SidebarDemo>

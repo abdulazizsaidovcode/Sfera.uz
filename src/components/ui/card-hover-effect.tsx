@@ -38,7 +38,7 @@ export const HoverEffect = ({
                 className
             )}
         >
-            {items.map((item, idx) => (
+            {items && items.map((item, idx) => (
                 <div
                     key={item?.link}
                     className="relative group block p-2 h-full w-full cursor-pointer"

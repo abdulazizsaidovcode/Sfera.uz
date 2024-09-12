@@ -10,7 +10,6 @@ export const Config = () => {
   } else
     return {
       headers: {
-        "Content-Type": "multipart/form-data",
         Authorization: `Bearer `,
       },
     }; // Return an empty config if not in the browser

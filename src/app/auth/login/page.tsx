@@ -37,7 +37,7 @@ export default function SignupFormDemo() {
     }
   );
 
-  const {data, getData, loading: getLoading} = useGet(get_mee, Config())
+  const {data, getData, loading: getLoading} = useGet(get_mee, Config().headers)
   const { setGetMeeData } = useMeeStore()
  
   useEffect(() => {
