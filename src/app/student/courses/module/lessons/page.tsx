@@ -1,40 +1,24 @@
-"use clent";
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import SidebarDemo from "@/components/Sidebar/Sidebar";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 import { useGet } from "@/context/globalFunctions/useGetOption";
+import { get_module } from "@/context/api/api";
+import { Config } from "@/context/api/token";
 
 const Lessons = () => {
-  // const {} = useGet()
-  const CardsMap = [
-    {
-      imgSrc: "https://picsum.photos/500/400",
-      title: "Front-end",
-      description: "Front-end full course",
-      link: "/student/courses/module",
-    },
-    {
-      imgSrc: "https://picsum.photos/500/400",
-      title: "Back-end ",
-      description:
-        "A technology company that builds economic infrastructure for the internet.",
-      link: "/student/courses/module",
-    },
-    {
-      imgSrc: "https://picsum.photos/500/400",
-      title: "3DS max",
-      description:
-        "A technology company that builds economic infrastructure for the internet.",
-      link: "/student/courses/module",
-    },
-    {
-      imgSrc: "https://picsum.photos/500/400",
-      title: "Graphic Design",
-      description:
-        "A technology company that builds economic infrastructure for the internet.",
-      link: "/student/courses/module",
-    },
-  ];
+  const { data, getData, loading } = useGet(`${get_module}`, Config().headers);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const CardsMap = data?.map((item: any) => ({
+    imgSrc: "https://picsum.photos/500/400",
+    title: item.name,
+    description: item.description,
+    link: "/student/courses/module",
+  }));
   return (
     <SidebarDemo>
   <title>Sfera uz | Kurslar</title>
@@ -43,7 +27,7 @@ const Lessons = () => {
     <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-[${bgColorBody}] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
 
     <div className="relative z-10 flex flex-wrap justify-center gap-4">
-      <HoverEffect items={CardsMap} />
+    <HoverEffect items={CardsMap ? CardsMap : null} />
     </div>
   </div>
 </SidebarDemo>

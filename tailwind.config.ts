@@ -47,12 +47,22 @@ const config = {
           '0%': { backgroundPosition: '50% 0%' },
           '100%': { backgroundPosition: '50% 100%' },
         },
+        meteor: {
+          "0%": { transform: "rotate(215deg) translateX(0)", opacity: "1" },
+          "70%": { opacity: "1" },
+          "100%": {
+            transform: "rotate(215deg) translateX(-500px)",
+            opacity: "0",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         'gradient-x': 'gradient-x 1s ease infinite',
         'gradient-y': 'gradient-y 1s ease infinite',
+        "meteor-effect": "meteor 5s linear infinite",
+        
       },
     },
   },
@@ -92,6 +102,8 @@ function addVariablesForColors({ addBase, theme }: any) {
     ":root": newVars,
   });
 }
+
+
 
 
 

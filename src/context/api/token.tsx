@@ -10,10 +10,17 @@ export const Config = () => {
   } else
     return {
       headers: {
-        Authorization: `Bearer `,
+        Authorization: ``,
       },
     }; // Return an empty config if not in the browser
 };
+
+export const config = {
+  headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+  }
+}
+
 
 // Function to dynamically generate the image config with authorization header
 export const ImgConfig = () => {

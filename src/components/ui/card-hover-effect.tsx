@@ -2,8 +2,9 @@
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { bgColor, TitleTextColor } from "../Colors";
+import { bgColor, bgColorBody, TitleTextColor } from "../Colors";
 import { useRouter } from "next/navigation";
+import ModuleStore from "@/context/state-management/moduleStore/moduleStore";
 
 export const HoverEffect = ({
   items,
@@ -15,17 +16,22 @@ export const HoverEffect = ({
     description: string;
     link: string;
     imgSrc: string;
+    module: any;
+    id: string
   }[];
   className?: string;
   fallbackUrl?: string;
 }) => {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const router = useRouter();
+  const {setCategoryId} = ModuleStore()
 
-  const handleNavigation = (link: string) => {
+  const handleNavigation = (link: string, categoryid: string) => {
     const token = localStorage.getItem("token");
     if (token) {
       router.push(fallbackUrl || link);
+      setCategoryId(categoryid)
+
     } else {
       router.push("/auth/login");
     }
@@ -42,10 +48,10 @@ export const HoverEffect = ({
         items.map((item, idx) => (
           <div
             key={item?.link}
-            className="relative group block p-2 h-full w-full cursor-pointer"
+            className="relative group block p-2 h-full w-full "
             onMouseEnter={() => setHoveredIndex(idx)}
             onMouseLeave={() => setHoveredIndex(null)}
-            onClick={() => handleNavigation(item?.link)} // Call handleNavigation on click
+             // Call handleNavigation on click
           >
             <AnimatePresence>
               {hoveredIndex === idx && (
@@ -64,12 +70,14 @@ export const HoverEffect = ({
                 />
               )}
             </AnimatePresence>
-            <Card className="flex flex-col gap-3" imgSrc={item.imgSrc}>
+            <Card className="flex flex-col justify-between gap-3" imgSrc={item.imgSrc}>
               <CardTitle>{item.title}</CardTitle>
               <CardDescription>{item.description}</CardDescription>
-              <div className="flex">
-                <button className="text-[20px] rounded text-white border px-6 pb-1 mt-4">
-                  view
+              <div className="flex items-center justify-between mt-4">
+                <p className={`text-[${bgColorBody}] text-sm font-semibold`}>{item?.module ? item?.module : "0"} ta modul</p>
+                <button
+                onClick={() => handleNavigation(item?.link, item.id)} className="text-[20px] rounded text-white border px-6 pb-1 ">
+                  Kirish
                 </button>
               </div>
             </Card>
@@ -96,7 +104,7 @@ export const Card = ({
       )}
     >
       <img
-        src={imgSrc}
+        src={`${imgSrc}`}
         alt="Card Image"
         className="w-full h-auto object-cover rounded-lg"
       />
@@ -117,7 +125,7 @@ export const CardTitle = ({
   children: React.ReactNode;
 }) => {
   return (
-    <h4 className={cn("text-zinc-100 font-bold tracking-wide", className)}>
+    <h4 className={cn(`text-[${bgColorBody}] font-bold tracking-wide`, className)}>
       {children}
     </h4>
   );

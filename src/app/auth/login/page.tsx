@@ -15,7 +15,7 @@ import { BackgroundGradient } from "@/components/ui/background-gradient";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { bgColor, BorderColor } from "@/components/Colors";
+import { bgColor, bgColorBody, BorderColor } from "@/components/Colors";
 import { useGet } from "@/context/globalFunctions/useGetOption";
 import { Config } from "@/context/api/token";
 import useMeeStore from "@/context/state-management/getMeeStore/getMeeStore";
@@ -101,6 +101,7 @@ export default function SignupFormDemo() {
   };
 
   return (
+    
     <BackgroundLines className="flex items-center justify-center w-full flex-col px-4">
       <BackgroundGradient className="overflow-hidden rounded-2xl dark:bg-zinc-900">
         <title>Sfera uz | Tizimga kirish</title>
@@ -110,13 +111,13 @@ export default function SignupFormDemo() {
           <div className="w-full flex items-center justify-center mb-6">
             <Image alt="." src={Images.Logo} width={150} />
           </div>
-          <p className="text-white text-center text-sm max-w-sm mt-2 dark:text-neutral-300">
+          <p className={`text-[${bgColorBody}] text-center text-sm max-w-sm mt-2 dark:text-neutral-300`}>
             Tizimga kirish uchun malumotlaringizni to'gri kiriting!
           </p>
 
           <div className="my-8">
             <LabelInputContainer className="mb-4">
-              <Label className="text-white font-semibold" htmlFor="phone">
+              <Label className={`text-[${bgColorBody}] font-semibold`} htmlFor="phone">
                 Phone number
               </Label>
               <div className="relative">
@@ -144,7 +145,7 @@ export default function SignupFormDemo() {
               )}
             </LabelInputContainer>
             <LabelInputContainer className="mb-4">
-              <Label className="text-white font-semibold" htmlFor="password">
+              <Label className={`text-[${bgColorBody}] font-semibold`} htmlFor="password">
                 Password
               </Label>
               <div className="relative">
@@ -189,7 +190,7 @@ export default function SignupFormDemo() {
             <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-5 h-[1px] w-full" />
 
             <div className="flex flex-col md:flex-row justify-center items-center w-full gap-3">
-              <p className="text-white text-lg font-semibold text-center max-w-sm dark:text-neutral-300">
+              <p className={`text-[${bgColorBody}] text-lg font-semibold text-center max-w-sm dark:text-neutral-300`}>
                 I have not account.
               </p>
               <Link href={"/auth/signup"} className="text-sm">

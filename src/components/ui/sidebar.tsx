@@ -7,6 +7,7 @@ import { IoMenu, IoClose } from "react-icons/io5";
 import Images from "@/assets/ImgSend";
 import Image from "next/image";
 import { bgColorBody, BorderColor } from "../Colors";
+import { Boxes } from "./background-boxes";
 
 interface Links {
   label: string;
@@ -92,7 +93,7 @@ export const DesktopSidebar = ({
     <>
       <motion.div
         className={cn(
-          `h-full px-4 py-4 hidden md:flex md:flex-col bg-[${BorderColor}] dark:bg-neutral-800 w-[300px] flex-shrink-0`,
+          `h-full relative px-4 py-4 hidden md:flex md:flex-col bg-[${BorderColor}] dark:bg-neutral-800 w-[300px] flex-shrink-0`,
           className
         )}
         animate={{
@@ -102,7 +103,10 @@ export const DesktopSidebar = ({
         onMouseLeave={() => setOpen(false)}
         {...props}
       >
+        <>
+      
         {children}
+        </>
       </motion.div>
     </>
   );
