@@ -9,26 +9,32 @@ import { bgColorBody } from "@/components/Colors";
 import ModuleSidebar from "@/components/Sidebar/moduleSidebar";
 import VideoPlayer from "@/components/vedioJs/vedioJsProps";
 import { config } from "@/context/api/token";
+import { get_category, get_lesson, get_module } from "@/context/api/api";
 
 const Module = () => {
   const { CategoryId } = ModuleStore();
   const { data, getData, loading } = useGet(
-    `http://142.93.106.195:8080/module/byCategory/1`,
+    `${get_module}${CategoryId}`,
     config
   );
+  const { data: lessonData, getData: getLesson, loading: lessonloading } = useGet(
+    `${get_lesson}${CategoryId}`,
+    config
+  );
+
 
   useEffect(() => {
     getData();
   }, []);
 
-  const modules = [
-    { moduleId: 4, name: "Module 1", categoryId: 1 },
-    { moduleId: 5, name: "Module 2", categoryId: 1 },
-    { moduleId: 6, name: "Module 3", categoryId: 1 },
-    { moduleId: 7, name: "Module 4", categoryId: 1 },
-    { moduleId: 8, name: "Module 5", categoryId: 1 },
-    { moduleId: 9, name: "Module 6", categoryId: 1 },
-  ];
+    // { moduleId: 4, lessonId: 1, name: "Lesson 1" },
+    // { moduleId: 4, name: "Module 1", categoryId: 1 },
+
+  const modules = data?.map((item: any) => ({
+    moduleId: item.moduleId,
+    name: item.name,
+    lessonCount: item.lessonCount,
+  }));
   
   const lessons = [
     { moduleId: 4, lessonId: 1, name: "Lesson 1" },
@@ -50,7 +56,7 @@ const Module = () => {
           <div className="flex w-full justify-between">
             <div className="flex flex-col gap-5 p-2 md:px-10">
               {/* Add the Video Player with YouTube video */}
-                <VideoPlayer videoId="https://www.youtube.com/watch?v=nloTKL8LoJo" />
+                <VideoPlayer videoId="nloTKL8LoJo" />
               ewcokckjwe9ckje
             </div>
             <ModuleSidebar modules={modules} lessons={lessons} />
