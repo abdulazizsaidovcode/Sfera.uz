@@ -5,7 +5,7 @@ import { useState } from "react";
 import { bgColor, bgColorBody, TitleTextColor } from "../Colors";
 import { useRouter } from "next/navigation";
 import ModuleStore from "@/context/state-management/moduleStore/moduleStore";
-
+import { File } from "@/context/api/api";
 export const HoverEffect = ({
   items,
   className,
@@ -24,7 +24,7 @@ export const HoverEffect = ({
 }) => {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const router = useRouter();
-  const {setCategoryId} = ModuleStore()
+  const { setCategoryId } = ModuleStore()
 
   const handleNavigation = (link: string, categoryid: string) => {
     const token = localStorage.getItem("token");
@@ -51,7 +51,7 @@ export const HoverEffect = ({
             className="relative group block p-2 h-full w-full "
             onMouseEnter={() => setHoveredIndex(idx)}
             onMouseLeave={() => setHoveredIndex(null)}
-             // Call handleNavigation on click
+          // Call handleNavigation on click
           >
             <AnimatePresence>
               {hoveredIndex === idx && (
@@ -71,12 +71,12 @@ export const HoverEffect = ({
               )}
             </AnimatePresence>
             <Card className="flex flex-col justify-between gap-3" imgSrc={item.imgSrc}>
-              <CardTitle>{item.title}</CardTitle>
+              <CardTitle>{item.name}</CardTitle>
               <CardDescription>{item.description}</CardDescription>
               <div className="flex items-center justify-between mt-4">
-                <p className={`text-[${bgColorBody}] text-sm font-semibold`}>{item?.module ? item?.module : "0"} ta modul</p>
+                <p className={`text-[${bgColorBody}] text-sm font-semibold`}>{item?.moduleCount ? item?.moduleCount : "0"} ta modul</p>
                 <button
-                onClick={() => handleNavigation(item?.link, item.id)} className="text-[20px] rounded text-white border px-6 pb-1 ">
+                  onClick={() => handleNavigation(item?.link, item.id)} className="text-[20px] rounded text-white border px-6 pb-1 ">
                   Kirish
                 </button>
               </div>
@@ -104,7 +104,7 @@ export const Card = ({
       )}
     >
       <img
-        src={`${imgSrc}`}
+        src={`${File + imgSrc}`}
         alt="Card Image"
         className="w-full h-auto object-cover rounded-lg"
       />
