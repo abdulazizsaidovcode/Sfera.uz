@@ -14,6 +14,7 @@ import { get_mee } from "@/context/api/api";
 import { Config } from "@/context/api/token";
 import useMeeStore from "@/context/state-management/getMeeStore/getMeeStore";
 import { useRouter } from "next/navigation";
+import { Meteors } from "../ui/meteors";
 
 export default function SidebarDemo({
   children,
@@ -67,7 +68,9 @@ export default function SidebarDemo({
           <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
           {open ? <Logo /> : <LogoIcon />}
           {/* {open ? <LogoIcon /> : <LogoIcon />} */}
-            <div className="mt-8 ms-2 flex flex-col gap-2">
+            <div className="mt-8 relative ms-2 flex flex-col gap-2">
+              <Meteors number={50} />
+
               {links.map((link, idx) => (
                 <SidebarLink key={idx} link={link} onClick={() => {
                   if (link.label === "Logout") {
@@ -78,7 +81,9 @@ export default function SidebarDemo({
               ))}
             </div>
           </div>
-          <div className="w-full flex ps-[6px] items-center">
+          <div className="w-full relative flex ps-[6px] items-center">
+      <Meteors number={50} />
+
             <SidebarLink
               link={{
               label: getMeeData?.firstName ? "" : "Student",

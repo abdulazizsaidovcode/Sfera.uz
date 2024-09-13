@@ -3,12 +3,12 @@ import React, { useEffect } from "react";
 import SidebarDemo from "@/components/Sidebar/Sidebar";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 import { useGet } from "@/context/globalFunctions/useGetOption";
-import { get_module } from "@/context/api/api";
 import ModuleStore from "@/context/state-management/moduleStore/moduleStore";
 import { SparklesCore } from "@/components/ui/sparkles";
 import { bgColorBody } from "@/components/Colors";
-import { config } from "../../../../context/api/token";
-import { Meteors } from "@/components/ui/meteors";
+import ModuleSidebar from "@/components/Sidebar/moduleSidebar";
+import VideoPlayer from "@/components/vedioJs/vedioJsProps";
+import { config } from "@/context/api/token";
 
 const Module = () => {
   const { CategoryId } = ModuleStore();
@@ -17,61 +17,47 @@ const Module = () => {
     config
   );
 
-  console.log("Category id: ", CategoryId);
-
   useEffect(() => {
     getData();
   }, []);
+
+  const modules = [
+    { moduleId: 4, name: "Module 1", categoryId: 1 },
+    { moduleId: 5, name: "Module 2", categoryId: 1 },
+    { moduleId: 6, name: "Module 3", categoryId: 1 },
+    { moduleId: 7, name: "Module 4", categoryId: 1 },
+    { moduleId: 8, name: "Module 5", categoryId: 1 },
+    { moduleId: 9, name: "Module 6", categoryId: 1 },
+  ];
+  
+  const lessons = [
+    { moduleId: 4, lessonId: 1, name: "Lesson 1" },
+    { moduleId: 4, lessonId: 2, name: "Lesson 2" },
+    { moduleId: 4, lessonId: 3, name: "Lesson 3" },
+    { moduleId: 7, lessonId: 4, name: "Lesson 4" },
+    { moduleId: 8, lessonId: 5, name: "Lesson 5" },
+    { moduleId: 9, lessonId: 6, name: "Lesson 6" },
+  ];
 
   return (
     <SidebarDemo>
       <title>Sfera uz | Modul</title>
       <div
-        className={`relative ${
-          data ? "p-2 md:p-10" : ""
-        } w-full min-h-screen overflow-y-auto dark:bg-black bg-[${bgColorBody}] dark:bg-dot-white/[0.2] bg-dot-black/[0.3]`}
+        className={`relative w-full min-h-screen overflow-y-auto dark:bg-black bg-[${bgColorBody}] dark:bg-dot-white/[0.2] bg-dot-black/[0.3]`}
       >
-        {/* Radial gradient for the container to give a faded look */}
         <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-[${bgColorBody}] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
         {data ? (
-          <div className="flex flex-col gap-5">
-            {data?.map(() => (
-              <div className=" w-full relative max-w-full">
-                <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-blue-500 to-teal-500 transform scale-[0.80] bg-red-500 rounded-full blur-3xl" />
-                <div className="relative shadow-xl bg-gray-900 border border-gray-800  px-4 py-8 h-full overflow-hidden rounded-2xl flex justify-between items-start">
-                  <h1 className="font-bold text-xl text-white mb-4 relative z-50">
-                    Meteors because they&apos;re cool
-                  </h1>
-
-                  <button className="border px-4 py-1 rounded-lg  border-gray-500 text-gray-300">
-                    Explore
-                  </button>
-                  <div className="h-5 w-5 rounded-full border flex items-center justify-center mb-4 border-gray-500">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="h-2 w-2 text-gray-300"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M4.5 4.5l15 15m0 0V8.25m0 11.25H8.25"
-                      />
-                    </svg>
-                  </div>
-
-                  {/* Meaty part - Meteor effect */}
-                  <Meteors number={50} />
-                </div>
-              </div>
-            ))}
+          <div className="flex w-full justify-between">
+            <div className="flex flex-col gap-5 p-2 md:px-10">
+              {/* Add the Video Player with YouTube video */}
+                <VideoPlayer videoId="https://www.youtube.com/watch?v=nloTKL8LoJo" />
+              ewcokckjwe9ckje
+            </div>
+            <ModuleSidebar modules={modules} lessons={lessons} />
           </div>
         ) : (
           <div
-            className={`h-screen relative w-full flex flex-col items-center justify-center overflow-hidden rounded-md`}
+            className="h-screen relative w-full flex flex-col items-center justify-center overflow-hidden rounded-md"
           >
             <div className="w-full absolute inset-0 h-screen">
               <SparklesCore
@@ -85,9 +71,9 @@ const Module = () => {
               />
             </div>
             <h1
-              className={`md:text-5xl text-3xl bg-transparent lg:text-6xl font-bold text-center text-[#000] relative z-20`}
+              className="md:text-5xl text-3xl bg-transparent lg:text-6xl font-bold text-center text-[#000] relative z-20"
             >
-              Modul topilmadi☹
+              Modul topilmadi
             </h1>
           </div>
         )}
