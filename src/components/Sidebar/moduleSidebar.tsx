@@ -5,57 +5,67 @@ import { RiArrowDropDownLine, RiDashboardHorizontalFill } from "react-icons/ri";
 import { cn } from "@/lib/utils";
 import { useLessonStore } from "@/context/state-management/lessonStore/lossonStore";
 import { Meteors } from "../ui/meteors";
+import ModuleStore from "@/context/state-management/moduleStore/moduleStore";
 
-interface ModuleSidebarProps {
+export interface ModuleSidebarProps {
   modules: { moduleId: number; name: string; categoryId: number }[];
-  lessons: { moduleId: number; lessonId: number; name: string }[];
+  lessons: {
+    moduleId: number | null;
+    name: string | null;
+    lessonId: number;
+    description: string | null;
+    videoLink: string | null;
+    videoTime: number | null;
+  }[];
 }
 
 const ModuleSidebar: React.FC<ModuleSidebarProps> = ({ modules, lessons }) => {
-  const [activeModule, setActiveModule] = useState<number | null>(modules[0].moduleId); // First module is open by default
-  const { setSelectedLessonId, selectedLessonId } = useLessonStore(); // Zustand store
+  const [activeModule, setActiveModule] = useState<number | null>(null);
+  const { setSelectedLessonId, selectedLessonId } = useLessonStore();
+  const { setVedioLink } = ModuleStore();
 
-  // Set first lesson of the first module as default
   useEffect(() => {
-    const firstModuleLessons = lessons.filter(
-      (lesson) => lesson.moduleId === modules[0].moduleId
-    );
-    if (firstModuleLessons.length > 0) {
-      setSelectedLessonId(firstModuleLessons[0].lessonId);
-    }
-  }, [lessons, modules, setSelectedLessonId]);
+    // Bitta modul va dars bo'lgandagina bu effect ishga tushadi
+    if (modules.length > 0 && lessons.length > 0 && activeModule === null) {
+      const firstModule = modules[0];
+      const firstModuleLessons = lessons.filter((lesson) => lesson.moduleId === firstModule.moduleId);
 
-  // Function to toggle the active accordion
+      if (firstModuleLessons.length > 0) {
+        setActiveModule(firstModule.moduleId);
+        setSelectedLessonId(firstModuleLessons[0].lessonId);
+        setVedioLink(firstModuleLessons[0].videoLink);
+      }
+    }
+  }, [lessons, modules, activeModule, setSelectedLessonId, setVedioLink]);
+
+  // Modulni ochish yoki yopish
   const toggleAccordion = (moduleId: number) => {
     setActiveModule((prevModule) => (prevModule === moduleId ? null : moduleId));
   };
 
-  // Handle lesson click
-  const handleLessonClick = (lessonId: number) => {
+  // Dars bosilganda videoni set qilish
+  const handleLessonClick = (lessonId: number, videoLink: string | null) => {
     setSelectedLessonId(lessonId);
+    setVedioLink(videoLink);
   };
 
   return (
     <motion.div
       className={cn(
-        `h-screen fixed top-0 right-0 px-4 py-4 hidden md:flex md:flex-col bg-[#16423C] w-[300px] text-[#E9EFEC] shadow-lg`
+        "h-screen fixed top-0 right-0 px-4 py-4 hidden md:flex md:flex-col bg-[#16423C] w-[300px] text-[#E9EFEC] shadow-lg"
       )}
-      animate={{
-        width: "280px",
-      }}
+      animate={{ width: "280px" }}
     >
       <div className="flex relative flex-col flex-1 overflow-y-auto overflow-x-hidden">
-      <Meteors number={50} />
+        <Meteors number={50} />
 
-        {/* Sidebar Header */}
         <div className="flex items-center mb-6">
           <RiDashboardHorizontalFill className="text-[#6A9C89] text-2xl" />
           <h1 className="text-xl ml-2 font-semibold">Modules</h1>
         </div>
 
-        {/* Accordion List */}
         <div className="space-y-4">
-          {modules.map((module) => (
+          {modules?.map((module) => (
             <div key={module.moduleId}>
               <div
                 className="flex justify-between items-center cursor-pointer px-4 py-2 rounded-md bg-[#6A9C89] hover:bg-[#54907F] transition"
@@ -69,7 +79,6 @@ const ModuleSidebar: React.FC<ModuleSidebarProps> = ({ modules, lessons }) => {
                 />
               </div>
 
-              {/* Accordion Content - Lessons */}
               <AnimatePresence>
                 {activeModule === module.moduleId && (
                   <motion.div
@@ -80,20 +89,27 @@ const ModuleSidebar: React.FC<ModuleSidebarProps> = ({ modules, lessons }) => {
                   >
                     <ul className="p-4 space-y-2">
                       {lessons
-                        .filter((lesson) => lesson.moduleId === module.moduleId)
+                        ?.filter((lesson) => lesson.moduleId === module.moduleId)
                         .map((lesson) => (
                           <li
                             key={lesson.lessonId}
                             className={`text-base cursor-pointer transition ${
                               selectedLessonId === lesson.lessonId
-                                ? "text-[#6A9C89] font-bold"
+                                ? "text-[#16423C] font-bold"
                                 : "hover:text-[#6A9C89]"
                             }`}
-                            onClick={() => handleLessonClick(lesson.lessonId)}
+                            onClick={() =>
+                              handleLessonClick(lesson.lessonId, lesson.videoLink)
+                            }
                           >
-                            {lesson.name}
+                            {lesson.name || "No name"}
                           </li>
                         ))}
+                      {lessons.every((lesson) => lesson.moduleId !== module.moduleId) && (
+                        <li className="text-base cursor-pointer transition text-[#6A9C89] font-bold">
+                          Darslik topilmadi
+                        </li>
+                      )}
                     </ul>
                   </motion.div>
                 )}

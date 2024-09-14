@@ -71,10 +71,10 @@ export const HoverEffect = ({
               )}
             </AnimatePresence>
             <Card className="flex flex-col justify-between gap-3" imgSrc={item.imgSrc}>
-              <CardTitle>{item.name}</CardTitle>
+              <CardTitle>{item.title}</CardTitle>
               <CardDescription>{item.description}</CardDescription>
               <div className="flex items-center justify-between mt-4">
-                <p className={`text-[${bgColorBody}] text-sm font-semibold`}>{item?.moduleCount ? item?.moduleCount : "0"} ta modul</p>
+                <p className={`text-[${bgColorBody}] text-sm font-semibold`}>{item?.module ? item?.module : "0"} ta modul</p>
                 <button
                   onClick={() => handleNavigation(item?.link, item.id)} className="text-[20px] rounded text-white border px-6 pb-1 ">
                   Kirish
