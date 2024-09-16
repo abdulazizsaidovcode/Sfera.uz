@@ -81,10 +81,10 @@ export default function SidebarDemo({
               ))}
             </div>
           </div>
-          <div className="w-full relative flex ps-[6px] items-center">
-      <Meteors number={50} />
+          {/* <div className="w-full relative flex ps-[6px] items-center">
+           <Meteors number={50} />
 
-            <SidebarLink
+              <SidebarLink
               link={{
               label: getMeeData?.firstName ? "" : "Student",
                 href: "#",
@@ -99,7 +99,7 @@ export default function SidebarDemo({
                 ),
               }}
             />
-          </div>
+          </div> */}
         </SidebarBody>
       </Sidebar>
       {children}

@@ -1,5 +1,4 @@
-import React, { useEffect, useRef } from "react";
-import videojs from "video.js";
+import React from "react";
 import "video.js/dist/video-js.css";
 import "videojs-youtube"; // Ensure the YouTube plugin is included
 
@@ -8,25 +7,22 @@ interface VideoPlayerProps {
 }
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoId }) => {
- 
+  console.log("vedioLink", videoId);
 
   return (
-    <div data-vjs-player>
       <video
         id="my-video"
-        className="video-js max-w-full h-auto" 
+        className="video-js"
         controls
+        width={'700px'}
+        height={"auto"}
         preload="auto"
-       loop={false}
-       
-        poster="MY_VIDEO_POSTER.jpg"
+        loop={false}
         data-setup="{}"
         autoPlay={false}
       >
-        {/* <source src="MY_VIDEO.mp4" type="video/mp4" /> */}
-        <source src={`${videoId}`} type="video/youtube" />
+        <source width={'400px'} src={"https://www.youtube.com/watch?v=Xj3gU3jACe8"} type="video/youtube" />
       </video>
-    </div>
   );
 };
 

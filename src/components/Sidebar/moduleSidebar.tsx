@@ -6,6 +6,10 @@ import { cn } from "@/lib/utils";
 import { useLessonStore } from "@/context/state-management/lessonStore/lossonStore";
 import { Meteors } from "../ui/meteors";
 import ModuleStore from "@/context/state-management/moduleStore/moduleStore";
+import { FaLock } from "react-icons/fa";
+import { useGet } from "@/context/globalFunctions/useGetOption";
+import { config } from "@/context/api/token";
+import { get_lesson, get_question } from "@/context/api/api";
 
 export interface ModuleSidebarProps {
   modules: { moduleId: number; name: string; categoryId: number }[];
@@ -16,34 +20,53 @@ export interface ModuleSidebarProps {
     description: string | null;
     videoLink: string | null;
     videoTime: number | null;
+    lessonActive: boolean | null;
   }[];
 }
 
 const ModuleSidebar: React.FC<ModuleSidebarProps> = ({ modules, lessons }) => {
-  const [activeModule, setActiveModule] = useState<number | null>(null);
-  const { setSelectedLessonId, selectedLessonId } = useLessonStore();
   const { setVedioLink } = ModuleStore();
+  const { setSelectedLessonId, selectedLessonId, setquestionData } = useLessonStore();
+  const { data, getData, loading } = useGet(`${get_question}${selectedLessonId}`, config);
+  const [activeModule, setActiveModule] = useState<number | null>(null);
+  const [initialLoadDone, setInitialLoadDone] = useState<boolean>(false);
 
   useEffect(() => {
-    // Bitta modul va dars bo'lgandagina bu effect ishga tushadi
-    if (modules.length > 0 && lessons.length > 0 && activeModule === null) {
+    // Handle initial load and set initial lesson
+    if (modules?.length > 0 && lessons?.length > 0 && activeModule === null) {
       const firstModule = modules[0];
-      const firstModuleLessons = lessons.filter((lesson) => lesson.moduleId === firstModule.moduleId);
+      const firstModuleLessons = lessons.filter(
+        (lesson) => lesson.moduleId === firstModule.moduleId
+      );
 
-      if (firstModuleLessons.length > 0) {
+      if (firstModuleLessons?.length > 0) {
         setActiveModule(firstModule.moduleId);
         setSelectedLessonId(firstModuleLessons[0].lessonId);
         setVedioLink(firstModuleLessons[0].videoLink);
+        setInitialLoadDone(true);
       }
     }
   }, [lessons, modules, activeModule, setSelectedLessonId, setVedioLink]);
 
-  // Modulni ochish yoki yopish
+  useEffect(() => {
+    // Fetch data when selectedLessonId changes if initial load is complete
+    if (initialLoadDone || selectedLessonId) {
+      getData();
+    }
+  }, [selectedLessonId, initialLoadDone]);
+
+  useEffect(() => {
+    setquestionData(data)
+  }, [data])
+
+  // Handle module toggle
   const toggleAccordion = (moduleId: number) => {
-    setActiveModule((prevModule) => (prevModule === moduleId ? null : moduleId));
+    setActiveModule((prevModule) =>
+      prevModule === moduleId ? null : moduleId
+    );
   };
 
-  // Dars bosilganda videoni set qilish
+  // Handle lesson click
   const handleLessonClick = (lessonId: number, videoLink: string | null) => {
     setSelectedLessonId(lessonId);
     setVedioLink(videoLink);
@@ -52,12 +75,12 @@ const ModuleSidebar: React.FC<ModuleSidebarProps> = ({ modules, lessons }) => {
   return (
     <motion.div
       className={cn(
-        "h-screen fixed top-0 right-0 px-4 py-4 hidden md:flex md:flex-col bg-[#16423C] w-[300px] text-[#E9EFEC] shadow-lg"
+        "h-screen fixed top-0 right-0 px-4 py-4 hidden lg:flex md:flex-col bg-[#16423C] w-[300px] text-[#E9EFEC] shadow-lg"
       )}
       animate={{ width: "280px" }}
     >
       <div className="flex relative flex-col flex-1 overflow-y-auto overflow-x-hidden">
-        <Meteors number={50} />
+        <Meteors number={30} />
 
         <div className="flex items-center mb-6">
           <RiDashboardHorizontalFill className="text-[#6A9C89] text-2xl" />
@@ -89,23 +112,39 @@ const ModuleSidebar: React.FC<ModuleSidebarProps> = ({ modules, lessons }) => {
                   >
                     <ul className="p-4 space-y-2">
                       {lessons
-                        ?.filter((lesson) => lesson.moduleId === module.moduleId)
+                        ?.filter(
+                          (lesson) => lesson.moduleId === module.moduleId
+                        )
                         .map((lesson) => (
                           <li
                             key={lesson.lessonId}
-                            className={`text-base cursor-pointer transition ${
-                              selectedLessonId === lesson.lessonId
-                                ? "text-[#16423C] font-bold"
-                                : "hover:text-[#6A9C89]"
+                            className={`text-base flex justify-between w-full items-center cursor-pointer transition ${
+                              lesson.lessonActive
+                                ? selectedLessonId === lesson.lessonId
+                                  ? "text-[#16423C] font-bold"
+                                  : "hover:text-[#6A9C89]"
+                                : "text-[#B0B0B0] cursor-not-allowed"
                             }`}
                             onClick={() =>
-                              handleLessonClick(lesson.lessonId, lesson.videoLink)
+                              lesson.lessonActive
+                                ? handleLessonClick(
+                                    lesson.lessonId,
+                                    lesson.videoLink
+                                  )
+                                : undefined
                             }
                           >
-                            {lesson.name || "No name"}
+                            <span>{lesson.name || "No name"}</span>{" "}
+                            {!lesson.lessonActive && (
+                              <span>
+                                <FaLock />
+                              </span>
+                            )}
                           </li>
                         ))}
-                      {lessons.every((lesson) => lesson.moduleId !== module.moduleId) && (
+                      {lessons.every(
+                        (lesson) => lesson.moduleId !== module.moduleId
+                      ) && (
                         <li className="text-base cursor-pointer transition text-[#6A9C89] font-bold">
                           Darslik topilmadi
                         </li>
