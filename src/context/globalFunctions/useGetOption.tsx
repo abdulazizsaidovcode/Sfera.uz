@@ -11,7 +11,7 @@ interface UseGetResponse<T> {
 
 export function useGet<T>(url: string, config?: any): UseGetResponse<T> {
   const queryClient = useQueryClient();
-  const [data, setData] = useState<T | null>(null);
+  const [data, setData] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 
@@ -21,11 +21,13 @@ export function useGet<T>(url: string, config?: any): UseGetResponse<T> {
     try {
       const result = await axios.get(url, config ? config : {});
       if (result.data.error) {
+        setData([])
         throw new Error(result.data.error);
       }
       setData(result.data.data); // Ma'lumotlarni set qilish
     } catch (err) {
       setError(err); // Xatolikni set qilish
+      setData([])
     } finally {
       setLoading(false);
     }

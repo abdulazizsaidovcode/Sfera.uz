@@ -9,20 +9,36 @@ import { bgColorBody } from "@/components/Colors";
 import ModuleSidebar from "@/components/Sidebar/moduleSidebar";
 import VideoPlayer from "@/components/vedioJs/vedioJsProps";
 import { config } from "@/context/api/token";
-import { get_lesson, get_module } from "@/context/api/api";
+import { get_lesson, get_module, post_question } from "@/context/api/api";
 import { useLessonStore } from "@/context/state-management/lessonStore/lossonStore";
 import { RadioGroup } from "@headlessui/react";
 import {
   RiCheckboxBlankCircleLine,
   RiCheckboxCircleFill,
 } from "react-icons/ri";
+import { usePost } from "@/context/globalFunctions/usePostOption";
 
 const Module = () => {
   const { CategoryId, VedioLink } = ModuleStore();
-  const { questionData } = useLessonStore();
+  const {
+    questionData,
+    setNextLessonId,
+    nextLessonId,
+    setCurrentLessonId,
+    currentLessonId,
+    result,
+    setResult,
+  } = useLessonStore();
 
-  const { data, getData, loading } = useGet(
+  const { data, getData, loading: getLoading } = useGet(
     `${get_module}${CategoryId}`,
+    config
+  );
+  const { error, loading: postLoading, postData, response } = usePost(
+    `${post_question}${currentLessonId}?nextLessonId=${nextLessonId}`,
+    {
+      result,
+    },
     config
   );
   const {
@@ -61,16 +77,57 @@ const Module = () => {
     setSelectedAnswers((prev) => ({ ...prev, [questionId]: optionId }));
   };
 
+  console.log(error);
+  console.log(response);
+  console.log(result);
+  
+  
+
   // Testni yakunlash
-  const handleFinishTest = () => {
-    const result = Object.keys(selectedAnswers).map((questionId) => ({
-      questionId: Number(questionId),
-      selectedOption: selectedAnswers[Number(questionId)],
-    }));
-
-    console.log("Test yakunlandi, tanlangan javoblar:", result);
+  const handleFinishTest = async () => {
+    try {
+      // Step 1: Get the current lessonId from the questionData
+      const currentLessonIdToSet = questionData?.length > 0 ? questionData[0].lessonId : null;
+      setCurrentLessonId(currentLessonIdToSet);
+  
+      // Step 2: Find the current lesson index from the lessons array
+      const currentLessonIndex = lessons?.findIndex(
+        (lesson: any) => lesson.lessonId === currentLessonIdToSet
+      );
+  
+      // Step 3: Get the next lessonId if it exists
+      const nextLessonIdToSet = currentLessonIndex !== -1 && currentLessonIndex + 1 < lessons.length
+        ? lessons[currentLessonIndex + 1].lessonId
+        : null;
+      setNextLessonId(nextLessonIdToSet);
+  
+      // Step 4: Collect selected answers for the result
+      const finalResultData = Object.keys(selectedAnswers).map((questionId) => ({
+        questionId: Number(questionId),
+        optionId: selectedAnswers[Number(questionId)],
+      }));
+      setResult(finalResultData);
+  
+      // Final result object including lessonId and nextLessonId
+      const finalResult = {
+        lessonId: currentLessonIdToSet,
+        nextLessonId: nextLessonIdToSet,
+        answers: finalResultData,
+      };
+  
+      // console.log("Test yakunlandi, final result:", finalResult);
+  
+      // Step 5: Wait for setCurrentLessonId, setNextLessonId, and setResult to finish
+      // Then call postData()
+      await postData();
+  
+      // Step 6: Reset selected answers after finishing the test
+      setSelectedAnswers({}); // This will clear the selected answers
+    } catch (error) {
+      // console.error("Error finishing the test:", error);
+    }
   };
-
+  
   return (
     <SidebarDemo>
       <title>Sfera uz | Modul</title>
@@ -83,71 +140,71 @@ const Module = () => {
             <div className="flex flex-col bg-slate-800 w-full lg:mr-[300px] p-2 md:px-10">
               {/* Video Player */}
               <VideoPlayer videoId={VedioLink ? VedioLink : ""} />
-            <div className="mt-4 p-4 bg-[#E9EFEC] rounded-md">
-              {questionData?.length > 0 ? (
-                <div>
-                  {questionData.map((question: any) => (
-                    <div key={question.id} className="mb-6">
-                      <h3 className="text-xl font-semibold text-[#16423C] mb-3">
-                        {question.name}
-                      </h3>
-                      <RadioGroup
-                        value={selectedAnswers[question.id]}
-                        onChange={(value: any) =>
-                          handleSelectAnswer(question.id, value)
-                        }
-                        className="space-y-2"
-                      >
-                        {question.optionDto.map((option: any) => (
-                          <RadioGroup.Option
-                            key={option.id}
-                            value={option.id}
-                            className={({
-                              active,
-                              checked,
-                            }: {
-                              active: any;
-                              checked: boolean;
-                            }) =>
-                              `flex items-center p-2 rounded-lg cursor-pointer bg-white shadow-md ${
-                                checked
-                                  ? "border-2 border-[#6A9C89]"
-                                  : "border border-gray-300"
-                              }`
-                            }
-                          >
-                            {({ checked }: { checked: boolean }) => (
-                              <>
-                                {checked ? (
-                                  <RiCheckboxCircleFill className="text-[#6A9C89] text-2xl mr-2" />
-                                ) : (
-                                  <RiCheckboxBlankCircleLine className="text-[#6A9C89] text-2xl mr-2" />
-                                )}
-                                <span className="text-lg text-[#16423C]">
-                                  {option.answer}
-                                </span>
-                              </>
-                            )}
-                          </RadioGroup.Option>
-                        ))}
-                      </RadioGroup>
-                    </div>
-                  ))}
+              <div className="mt-4 p-4 bg-[#E9EFEC] rounded-md">
+                {questionData?.length > 0 ? (
+                  <div>
+                    {questionData.map((question: any) => (
+                      <div key={question.id} className="mb-6">
+                        <h3 className="text-xl font-semibold text-[#16423C] mb-3">
+                          {question.name}
+                        </h3>
+                        <RadioGroup
+                          value={selectedAnswers[question.id]}
+                          onChange={(value: any) =>
+                            handleSelectAnswer(question.id, value)
+                          }
+                          className="space-y-2"
+                        >
+                          {question.optionDto.map((option: any) => (
+                            <RadioGroup.Option
+                              key={option.id}
+                              value={option.id}
+                              className={({
+                                active,
+                                checked,
+                              }: {
+                                active: any;
+                                checked: boolean;
+                              }) =>
+                                `flex items-center p-2 rounded-lg cursor-pointer bg-white shadow-md ${
+                                  checked
+                                    ? "border-2 border-[#6A9C89]"
+                                    : "border border-gray-300"
+                                }`
+                              }
+                            >
+                              {({ checked }: { checked: boolean }) => (
+                                <>
+                                  {checked ? (
+                                    <RiCheckboxCircleFill className="text-[#6A9C89] text-2xl mr-2" />
+                                  ) : (
+                                    <RiCheckboxBlankCircleLine className="text-[#6A9C89] text-2xl mr-2" />
+                                  )}
+                                  <span className="text-lg text-[#16423C]">
+                                    {option.answer}
+                                  </span>
+                                </>
+                              )}
+                            </RadioGroup.Option>
+                          ))}
+                        </RadioGroup>
+                      </div>
+                    ))}
 
-                  {/* Testni yakunlash tugmasi */}
-                  <button
-                    onClick={handleFinishTest}
-                    className="w-full py-2 mt-4 bg-[#6A9C89] text-[#16423C] font-semibold text-lg rounded-md hover:bg-[#54907F]"
-                  >
-                    Testni yakunlash
-                  </button>
-                </div>
-              ) : (
-                <p className="text-[#16423C]">No questions available.</p>
-              )}
+                    {/* Testni yakunlash tugmasi */}
+                    <button
+                      onClick={handleFinishTest}
+                      className="w-full py-2 mt-4 bg-[#6A9C89] text-[#16423C] font-semibold text-lg rounded-md hover:bg-[#54907F]"
+                    >
+                      {postLoading ? "Loading.." : "Testni yakunlash"}
+                    </button>
+                  </div>
+                ) : (
+                  <p className="text-[#16423C]">No questions available.</p>
+                )}
+              </div>
             </div>
-            </div>
-              {/* Test Section */}
+            {/* Test Section */}
             <ModuleSidebar modules={modules} lessons={lessons} />
           </div>
         ) : (
