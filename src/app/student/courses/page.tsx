@@ -18,7 +18,7 @@ const Courses = () => {
 
   const CardsMap = data?.map((item: any) => ({
     id: item.id,
-    imgSrc: item?.fileId ? `http://142.93.106.195:8080/file/files/${item?.fileId}` : "https://img.freepik.com/free-vector/laptop-with-program-code-isometric-icon-software-development-programming-applications-dark-neon_39422-971.jpg",
+    imgSrc: item?.fileId || item?.fileId !== 0 ? `http://142.93.106.195:8080/file/files/${item?.fileId}` : "https://img.freepik.com/free-vector/laptop-with-program-code-isometric-icon-software-development-programming-applications-dark-neon_39422-971.jpg",
     title: item.name,
     description: item.description,
     link: "/student/courses/module",

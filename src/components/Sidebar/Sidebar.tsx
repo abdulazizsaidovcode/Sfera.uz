@@ -68,7 +68,7 @@ export default function SidebarDemo({
           <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
           {open ? <Logo /> : <LogoIcon />}
           {/* {open ? <LogoIcon /> : <LogoIcon />} */}
-            <div className="mt-8 relative ms-2 flex flex-col gap-2">
+            <div className="mt-8 relative ms-2 overflow-hidden flex flex-col gap-2">
               <Meteors number={50} />
 
               {links.map((link, idx) => (

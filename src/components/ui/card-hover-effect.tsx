@@ -104,7 +104,7 @@ export const Card = ({
       )}
     >
       <img
-        src={`${File + imgSrc}`}
+        src={imgSrc ? `${File + imgSrc}` : "https://img.freepik.com/free-vector/illustration-social-media-concept_53876-18139.jpg"}
         alt="Card Image"
         className="w-full h-auto object-cover rounded-lg"
       />

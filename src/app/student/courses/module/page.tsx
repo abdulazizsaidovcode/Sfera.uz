@@ -5,7 +5,7 @@ import { HoverEffect } from "@/components/ui/card-hover-effect";
 import { useGet } from "@/context/globalFunctions/useGetOption";
 import ModuleStore from "@/context/state-management/moduleStore/moduleStore";
 import { SparklesCore } from "@/components/ui/sparkles";
-import { bgColorBody } from "@/components/Colors";
+import { bgColor, bgColorBody } from "@/components/Colors";
 import ModuleSidebar from "@/components/Sidebar/moduleSidebar";
 import VideoPlayer from "@/components/vedioJs/vedioJsProps";
 import { config } from "@/context/api/token";
@@ -17,6 +17,7 @@ import {
   RiCheckboxCircleFill,
 } from "react-icons/ri";
 import { usePost } from "@/context/globalFunctions/usePostOption";
+import Breadcrumbs from "@/components/breadcrumbs/breadcrumbs";
 
 const Module = () => {
   const { CategoryId, VedioLink } = ModuleStore();
@@ -36,9 +37,7 @@ const Module = () => {
   );
   const { error, loading: postLoading, postData, response } = usePost(
     `${post_question}${currentLessonId}?nextLessonId=${nextLessonId}`,
-    {
-      result,
-    },
+    result,
     config
   );
   const {
@@ -50,6 +49,7 @@ const Module = () => {
   const [selectedAnswers, setSelectedAnswers] = useState<{
     [key: number]: number;
   }>({});
+  
 
   useEffect(() => {
     getData();
@@ -80,54 +80,62 @@ const Module = () => {
   console.log(error);
   console.log(response);
   console.log(result);
-  
-  
+
+  useEffect(() => {
+    if (response) {
+      getLesson();
+    }
+  }, [response]);
 
   // Testni yakunlash
   const handleFinishTest = async () => {
     try {
       // Step 1: Get the current lessonId from the questionData
-      const currentLessonIdToSet = questionData?.length > 0 ? questionData[0].lessonId : null;
+      const currentLessonIdToSet =
+        questionData?.length > 0 ? questionData[0].lessonId : null;
       setCurrentLessonId(currentLessonIdToSet);
-  
+
       // Step 2: Find the current lesson index from the lessons array
       const currentLessonIndex = lessons?.findIndex(
         (lesson: any) => lesson.lessonId === currentLessonIdToSet
       );
-  
+
       // Step 3: Get the next lessonId if it exists
-      const nextLessonIdToSet = currentLessonIndex !== -1 && currentLessonIndex + 1 < lessons.length
-        ? lessons[currentLessonIndex + 1].lessonId
-        : null;
+      const nextLessonIdToSet =
+        currentLessonIndex !== -1 && currentLessonIndex + 1 < lessons.length
+          ? lessons[currentLessonIndex + 1].lessonId
+          : null;
       setNextLessonId(nextLessonIdToSet);
-  
+
       // Step 4: Collect selected answers for the result
-      const finalResultData = Object.keys(selectedAnswers).map((questionId) => ({
-        questionId: Number(questionId),
-        optionId: selectedAnswers[Number(questionId)],
-      }));
+      const finalResultData = Object.keys(selectedAnswers).map(
+        (questionId) => ({
+          questionId: Number(questionId),
+          optionId: selectedAnswers[Number(questionId)],
+        })
+      );
       setResult(finalResultData);
-  
+
       // Final result object including lessonId and nextLessonId
       const finalResult = {
         lessonId: currentLessonIdToSet,
         nextLessonId: nextLessonIdToSet,
         answers: finalResultData,
       };
-  
+
       // console.log("Test yakunlandi, final result:", finalResult);
-  
+
       // Step 5: Wait for setCurrentLessonId, setNextLessonId, and setResult to finish
       // Then call postData()
       await postData();
-  
+
       // Step 6: Reset selected answers after finishing the test
       setSelectedAnswers({}); // This will clear the selected answers
     } catch (error) {
       // console.error("Error finishing the test:", error);
     }
   };
-  
+
   return (
     <SidebarDemo>
       <title>Sfera uz | Modul</title>
@@ -135,12 +143,13 @@ const Module = () => {
         className={`relative w-full min-h-screen overflow-y-auto dark:bg-black bg-[${bgColorBody}] dark:bg-dot-white/[0.2] bg-dot-black/[0.3]`}
       >
         <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-[${bgColorBody}] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
+      <Breadcrumbs text="Lesson" className="ps-10 lg:pe-[317px]"/>
         {data ? (
           <div className="flex w-full justify-between">
-            <div className="flex flex-col bg-slate-800 w-full lg:mr-[300px] p-2 md:px-10">
+            <div className="flex flex-col w-full lg:mr-[277px] p-2 md:px-10">
               {/* Video Player */}
-              <VideoPlayer videoId={VedioLink ? VedioLink : ""} />
-              <div className="mt-4 p-4 bg-[#E9EFEC] rounded-md">
+              <VideoPlayer videoId={!VedioLink ? "VedioLink" : "https://www.youtube.com/watch?v=eMQGZHOcw2U"} />
+              <div className={`mt-4 p-4 bg-[${bgColor}] rounded-md`}>
                 {questionData?.length > 0 ? (
                   <div>
                     {questionData.map((question: any) => (

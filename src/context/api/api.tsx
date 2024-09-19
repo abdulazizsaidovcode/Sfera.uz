@@ -7,6 +7,7 @@ export const get_question = `${BASE_URL}question/byLesson/`
 export const post_question = `${BASE_URL}test/pass/online/`
 export const get_mee = `${BASE_URL}user/get/me`
 export const get_stats = `${BASE_URL}statistic/getOnlineCount`
+export const get_news = `${BASE_URL}notification/online/all`
 export const getCategory = `${BASE_URL}category/list?categoryEnum=ONLINE`
 
 export const File = `${BASE_URL}file/files/`

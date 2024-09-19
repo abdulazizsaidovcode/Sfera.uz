@@ -3,6 +3,8 @@ import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { bgColor, bgColorBody, TitleTextColor } from "../Colors";
+import { MovingBorder } from "./movingBorder";
+import { Meteors } from "./meteors";
 
 export const HoverEffect = ({
   items,
@@ -20,7 +22,7 @@ export const HoverEffect = ({
   return (
     <div
       className={cn(
-        "grid grid-cols-1 md:grid-cols-2 gap-5 lg:grid-cols-4  py-10",
+        "grid grid-cols-1 md:grid-cols-2 gap-5 lg:grid-cols-4 w-full py-10",
         className
       )}
     >
@@ -47,7 +49,11 @@ export const HoverEffect = ({
               />
             )}
           </AnimatePresence>
-          <Card desc={item?.description ? item.description : "0"} title={item.title} icon={item.icon} />
+          <Card
+            desc={item?.description ? item.description : "0"}
+            title={item.title}
+            icon={item.icon}
+          />
         </div>
       ))}
     </div>
@@ -66,20 +72,33 @@ export const Card = ({
   icon: any;
 }) => {
   return (
-    <div
-      className={cn(
-        `rounded-2xl h-full w-full p-4 overflow-hidden bg-[#fff] shadow-lg relative z-20`,
-        className
-      )}
-    >
-      <div className="relative text-2xl z-50 mt-4">
-        <span
-          className={`text-[${TitleTextColor}] flex justify-between items-center gap-8`}
-        >
-          {icon} <CardDescription>{desc}</CardDescription>
-        </span>
-        <div className="p-3">
-          <CardTitle>{title}</CardTitle>
+    <div className="relative p-[2px] overflow-hidden bg-transparent">
+      <div
+        className="absolute inset-0 overflow-hidden rounded-2xl"
+      >
+        <MovingBorder rx="40%" ry="40%">
+          <div
+            className={cn(
+              "h-80 w-80 opacity-[0.8] bg-[radial-gradient(#6A9C89_40%,transparent_60%)]"
+            )}
+          />
+        </MovingBorder>
+      </div>
+      <div
+        className={cn(
+          `rounded-2xl h-full w-full antialiased p-4 overflow-hidden bg-[#fff] shadow-lg relative z-20`,
+          className
+        )}
+      >
+        <div className="relative text-2xl overflow-hidden z-50 mt-4">
+          <span
+            className={`text-[${TitleTextColor}] flex justify-between items-center gap-8 md:px-3`}
+          >
+            {icon} <CardDescription>{desc}</CardDescription>
+          </span>
+          <div className="p-3  flex justify-center">
+            <CardTitle>{title}</CardTitle>
+          </div>
         </div>
       </div>
     </div>
@@ -108,7 +127,7 @@ export const CardDescription = ({
   children,
 }: {
   className?: string;
-  children: React.ReactNode;
+  children: any;
 }) => {
   return (
     <p
@@ -117,7 +136,8 @@ export const CardDescription = ({
         className
       )}
     >
-      {children}+
+      {children}
+      {children?.length > 2 && "+"}
     </p>
   );
 };
