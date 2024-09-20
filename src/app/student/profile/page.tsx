@@ -48,14 +48,7 @@ const Profile = () => {
     getData,
     data: getResponse,
   } = useGet(
-    `${get_mee}`, {
-          headers: {
-            Authorization: `Bearer ${
-              response?.token ? response?.token : localStorage.getItem("token")
-            }`,
-          },
-        }
-  );
+    `${get_mee}`, config);
 
   useEffect(() => {
     getData();
@@ -75,6 +68,7 @@ const Profile = () => {
         // Token va rol set qilingandan keyin, keyingi amallar ketma-ket ishlaydi
         await getData();
         await handleEditToggle();
+        await window.location.reload()
       }
     }
 
