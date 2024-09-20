@@ -6,6 +6,7 @@ import { bgColor, bgColorBody, TitleTextColor } from "../Colors";
 import { useRouter } from "next/navigation";
 import ModuleStore from "@/context/state-management/moduleStore/moduleStore";
 import { File } from "@/context/api/api";
+import { CardContainer } from "./3d-card";
 export const HoverEffect = ({
   items,
   className,
@@ -17,21 +18,20 @@ export const HoverEffect = ({
     link: string;
     imgSrc: string;
     module: any;
-    id: string
+    id: string;
   }[];
   className?: string;
   fallbackUrl?: string;
 }) => {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const router = useRouter();
-  const { setCategoryId } = ModuleStore()
+  const { setCategoryId } = ModuleStore();
 
   const handleNavigation = (link: string, categoryid: string) => {
     const token = localStorage.getItem("token");
     if (token) {
       router.push(fallbackUrl || link);
-      setCategoryId(categoryid)
-
+      setCategoryId(categoryid);
     } else {
       router.push("/auth/login");
     }
@@ -40,7 +40,7 @@ export const HoverEffect = ({
   return (
     <div
       className={cn(
-        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3   2xl:grid-cols-4 w-full gap-5 py-10",
+        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-full gap-5 py-10",
         className
       )}
     >
@@ -51,12 +51,12 @@ export const HoverEffect = ({
             className="relative group block p-2 h-full w-full "
             onMouseEnter={() => setHoveredIndex(idx)}
             onMouseLeave={() => setHoveredIndex(null)}
-          // Call handleNavigation on click
+            // Call handleNavigation on click
           >
             <AnimatePresence>
               {hoveredIndex === idx && (
                 <motion.span
-                  className="absolute inset-0 h-full w-full bg-[#93b3ae] block rounded-3xl"
+                  className="absolute inset-0 h-full w-ful -z-10 bg-[#93b3ae] block rounded-3xl"
                   layoutId="hoverBackground"
                   initial={{ opacity: 0 }}
                   animate={{
@@ -70,17 +70,26 @@ export const HoverEffect = ({
                 />
               )}
             </AnimatePresence>
-            <Card className="flex flex-col justify-between gap-3" imgSrc={item.imgSrc}>
-              <CardTitle>{item.title}</CardTitle>
-              <CardDescription>{item.description}</CardDescription>
-              <div className="flex items-center justify-between mt-4">
-                <p className={`text-[${bgColorBody}] text-sm font-semibold`}>{item?.module ? item?.module : "0"} ta modul</p>
-                <button
-                  onClick={() => handleNavigation(item?.link, item.id)} className="text-[20px] rounded text-white border px-6 pb-1 ">
-                  Kirish
-                </button>
-              </div>
-            </Card>
+            <CardContainer className="inter-var overflow-hidden z-30">
+              <Card
+                className="flex flex-col justify-between gap-3"
+                imgSrc={item.imgSrc}
+              >
+                <CardTitle>{item.title}</CardTitle>
+                <CardDescription>{item.description}</CardDescription>
+                <div className="flex items-center justify-between mt-4">
+                  <p className={`text-[${bgColorBody}] text-sm font-semibold`}>
+                    {item?.module ? item?.module : "0"} ta modul
+                  </p>
+                  <button
+                    onClick={() => handleNavigation(item?.link, item.id)}
+                    className="text-[20px] rounded text-white border px-6 pb-1 "
+                  >
+                    Kirish
+                  </button>
+                </div>
+              </Card>
+            </CardContainer>
           </div>
         ))}
     </div>
@@ -94,7 +103,7 @@ export const Card = ({
 }: {
   className?: string;
   children: React.ReactNode;
-  imgSrc: string;
+  imgSrc: number | string;
 }) => {
   return (
     <div
@@ -104,7 +113,11 @@ export const Card = ({
       )}
     >
       <img
-        src={imgSrc ? `${File + imgSrc}` : "https://img.freepik.com/free-vector/illustration-social-media-concept_53876-18139.jpg"}
+        src={
+          imgSrc !== 0
+            ? `${imgSrc}`
+            : "https://img.freepik.com/free-vector/illustration-social-media-concept_53876-18139.jpg"
+        }
         alt="Card Image"
         className="w-full h-auto object-cover rounded-lg"
       />
@@ -125,7 +138,9 @@ export const CardTitle = ({
   children: React.ReactNode;
 }) => {
   return (
-    <h4 className={cn(`text-[${bgColorBody}] font-bold tracking-wide`, className)}>
+    <h4
+      className={cn(`text-[${bgColorBody}] font-bold tracking-wide`, className)}
+    >
       {children}
     </h4>
   );

@@ -16,17 +16,17 @@ export function ThreeDCardDemo({
   return (
     <CardContainer className="inter-var">
       {/* <AuroraBackground> */}
-        <CardBody className="relative group/card  dark:hover:shadow-2xl border-black/[0.1] w-auto  h-auto rounded-xl p-6 border  ">
+        <CardBody className="relative group/card bg-gradient-to-b from-[#7bc0a5] via-[#8cb2a2] to-[#98d4bd] dark:hover:shadow-2xl border-black/[0.1] w-auto  h-auto rounded-xl p-6 border  ">
           <CardItem
             translateZ="50"
-            className="text-xl font-bold text-neutral-600 dark:text-white"
+            className="text-xl font-bold text-[#f5fbf8] dark:text-white"
           >
             {title}
           </CardItem>
           <CardItem
             as="p"
             translateZ="60"
-            className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
+            className="text-[#E9EFEC] text-sm max-w-sm mt-2 "
           >
             {desc}
           </CardItem>

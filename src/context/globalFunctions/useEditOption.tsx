@@ -10,11 +10,11 @@ interface UseEditOptions<T> {
 interface UseEditResponse<T> {
   loading: boolean;
   error: any;
-  response: T | null;
+  response: any;
   editData: () => void;
 }
 
-export function useEdit<T>(url: string, data: T, config?: any): UseEditResponse<T> {
+export function useEdit<T>(url: string, data: any, config?: any): UseEditResponse<T> {
   const mutation = useMutation({
     mutationFn: async () => {
       const result = await axios.put(url, data, config ? config : {}); 
