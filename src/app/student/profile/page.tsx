@@ -17,6 +17,7 @@ import { config } from "@/context/api/token";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [isConfig, setisConfig] = useState(true);
   const [formData, setFormData] = useState({
     phoneNumber: "",
     lastName: "",
@@ -46,22 +47,38 @@ const Profile = () => {
     loading: getLoading,
     getData,
     data: getResponse,
-  } = useGet(`${get_mee}`, config);
+  } = useGet(
+    `${get_mee}`, {
+          headers: {
+            Authorization: `Bearer ${
+              response?.token ? response?.token : localStorage.getItem("token")
+            }`,
+          },
+        }
+  );
 
   useEffect(() => {
     getData();
   }, []);
-
   useEffect(() => {
-    if (response) {
-      localStorage.clear();
-      localStorage.setItem("token", response && response?.token);
-      localStorage.setItem("role", response && response?.role);
-      setTimeout(() => {
-        getData();
-        handleEditToggle();
-      }, 2000);
+    async function check() {
+      // response mavjudligini tekshirish
+      if (response) {
+        // Promise ni async ichida to'g'ridan-to'g'ri ishlatish
+        await new Promise((res) => {
+          localStorage.clear();
+          localStorage.setItem("token", response?.token);
+          localStorage.setItem("role", response?.role);
+          res("salom"); // Promise'ni hal qilish
+        });
+
+        // Token va rol set qilingandan keyin, keyingi amallar ketma-ket ishlaydi
+        await getData();
+        await handleEditToggle();
+      }
     }
+
+    check(); // check funktsiyasini chaqirish
   }, [response]);
 
   const handleEditToggle = () => {
