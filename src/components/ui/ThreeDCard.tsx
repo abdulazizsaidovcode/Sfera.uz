@@ -15,7 +15,7 @@ export function ThreeDCardDemo({
 }) {
   return (
     <CardContainer className="inter-var">
-      <AuroraBackground>
+      {/* <AuroraBackground> */}
         <CardBody className="relative group/card  dark:hover:shadow-2xl border-black/[0.1] w-auto  h-auto rounded-xl p-6 border  ">
           <CardItem
             translateZ="50"
@@ -40,7 +40,7 @@ export function ThreeDCardDemo({
             />
           </CardItem>
         </CardBody>
-      </AuroraBackground>
+      {/* </AuroraBackground> */}
     </CardContainer>
   );
 }
