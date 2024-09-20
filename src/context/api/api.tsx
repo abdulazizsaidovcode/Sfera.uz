@@ -19,3 +19,4 @@ export const FileUploud = `${BASE_URL}file/files/`
 export const FileEdit = `${BASE_URL}/file/update/`
 
 
+export const contactUs = `${BASE_URL}notification/contact`
