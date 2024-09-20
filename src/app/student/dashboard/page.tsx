@@ -10,6 +10,7 @@ import { config } from "@/context/api/token";
 import { ThreeDCardDemo } from "@/components/ui/ThreeDCard";
 import Breadcrumbs from "@/components/breadcrumbs/breadcrumbs";
 import { LuBookCopy } from "react-icons/lu";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 
 const Dashboard = () => {
   const { data, getData, loading } = useGet(`${get_stats}`, config);
@@ -80,9 +81,9 @@ const Dashboard = () => {
         <div
           className={`flex justify-center items-center text-[${BorderColor}] pb-12`}
         >
-          <h2 className="font-bold text-[40px] tracking-wider ">
-            {newsData.length > 0 && "Sfera yangiliklari"}
-          </h2>
+          <div className="text-[50px] tracking-wider ">
+            {newsData.length > 0 && <TextGenerateEffect words={'Xabarlar!'} />}
+          </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-y-10 gap-5">
           {newsData.length > 0 &&

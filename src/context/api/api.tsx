@@ -16,7 +16,8 @@ export const getCategory = `${BASE_URL}category/list?categoryEnum=ONLINE`
 
 export const File = `${BASE_URL}file/files/`
 export const FileUploud = `${BASE_URL}file/files/`
-export const FileEdit = `${BASE_URL}/file/update/`
+export const FileEdit = `${BASE_URL}file/update/`
+export const FileAdd = `${BASE_URL}file/upload`
 
 
 export const contactUs = `${BASE_URL}notification/contact`

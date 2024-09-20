@@ -19,7 +19,6 @@ export function useEdit<T>(url: string, data: any, config?: any): UseEditRespons
     mutationFn: async () => {
       const result = await axios.put(url, data, config ? config : {}); 
       if (result.data.error) {
-        toastMessage(result.data.error)
         throw new Error(result.data.error);
       }
       return result.data.data;

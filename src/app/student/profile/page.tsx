@@ -9,15 +9,18 @@ import { bgColorBody } from "@/components/Colors";
 import { Input } from "@/components/ui/input";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useEdit } from "@/context/globalFunctions/useEditOption";
-import { get_mee, Update_me } from "@/context/api/api";
+import { File, get_mee, Update_me } from "@/context/api/api";
 import toast from "react-hot-toast";
 import { Label } from "@radix-ui/react-label";
 import { LabelInputContainer } from "@/app/auth/signup/page";
 import { config } from "@/context/api/token";
+import ImageUpload from "@/components/imgUpload/imgUpload";
+import useMeeStore from "@/context/state-management/getMeeStore/getMeeStore";
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [isConfig, setisConfig] = useState(true);
+  const {imgUpload} = useMeeStore();
   const [formData, setFormData] = useState({
     phoneNumber: "",
     lastName: "",
@@ -32,8 +35,8 @@ const Profile = () => {
     confirmPasswordError: "",
   });
 
-  const { error, loading, editData, response } = useEdit(
-    `${Update_me}?fileId=1`,
+  const { editData, response } = useEdit(
+    `${Update_me}${imgUpload && imgUpload !== 0 ? "?fileId=" + imgUpload : ""}`,
     {
       lastName: formData.lastName,
       firstName: formData.firstName,
@@ -43,8 +46,6 @@ const Profile = () => {
     config
   );
   const {
-    error: getError,
-    loading: getLoading,
     getData,
     data: getResponse,
   } = useGet(
@@ -184,7 +185,7 @@ const Profile = () => {
   return (
     <SidebarDemo>
       <title>Sfera uz | Profil</title>
-      <BackgroundLines className="flex items-center justify-center w-full flex-col">
+      <BackgroundLines className="flex items-center justify-center overflow-hidden w-full flex-col">
         <BackgroundGradient className="overflow-hidden w-[400px] rounded-2xl dark:bg-zinc-900">
           <div className="relative z-10 p-6 rounded-lg shadow-lg bg-[#6A9C89] max-w-full">
             <h1
@@ -192,15 +193,15 @@ const Profile = () => {
             >
               Profile
             </h1>
-            <div className="flex items-center justify-center mt-4">
-              <img
-                src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" // Placeholder for user image
-                alt="User Profile"
-                className="w-24 h-24 rounded-full border-4 border-[#16423C]"
-              />
-            </div>
             {!isEditing ? (
               <div className="mt-6 w-full flex justify-center items-center flex-col">
+                <div className="flex items-center justify-center mt-4">
+                  <img
+                    src={getResponse?.fileId && getResponse?.fileId !== 0  ? File + getResponse?.fileId : "https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg"} // Placeholder for user image
+                    alt="User Profile"
+                    className="w-24 h-24 rounded-full border-4 border-[#16423C]"
+                  />
+                </div>
                 <p
                   className={`text-xl font-semibold text-[${bgColorBody}] dark:text-white`}
                 >
@@ -218,6 +219,9 @@ const Profile = () => {
               </div>
             ) : (
               <div className="mt-6 space-y-4">
+                <div className="flex items-center justify-center mt-4">
+                    <ImageUpload imgID={getResponse?.fileId} />
+                </div>
                 <div>
                   <label
                     className={`block text-sm font-medium text-[${bgColorBody}] dark:text-white`}

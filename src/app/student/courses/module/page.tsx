@@ -5,7 +5,7 @@ import { HoverEffect } from "@/components/ui/card-hover-effect";
 import { useGet } from "@/context/globalFunctions/useGetOption";
 import ModuleStore from "@/context/state-management/moduleStore/moduleStore";
 import { SparklesCore } from "@/components/ui/sparkles";
-import { bgColor, bgColorBody } from "@/components/Colors";
+import { bgColor, bgColorBody, BorderColor } from "@/components/Colors";
 import ModuleSidebar from "@/components/Sidebar/moduleSidebar";
 import VideoPlayer from "@/components/vedioJs/vedioJsProps";
 import { config } from "@/context/api/token";
@@ -18,6 +18,7 @@ import {
 } from "react-icons/ri";
 import { usePost } from "@/context/globalFunctions/usePostOption";
 import Breadcrumbs from "@/components/breadcrumbs/breadcrumbs";
+import toast from "react-hot-toast";
 
 const Module = () => {
   const { CategoryId, VedioLink } = ModuleStore();
@@ -35,7 +36,7 @@ const Module = () => {
     `${get_module}${CategoryId}`,
     config
   );
-  const { error, loading: postLoading, postData, response } = usePost(
+  const { error: questionError, loading: postLoading, postData, response: questionResponse } = usePost(
     `${post_question}${currentLessonId}?nextLessonId=${nextLessonId}`,
     result,
     config
@@ -54,6 +55,15 @@ const Module = () => {
     getData();
     getLesson();
   }, []);
+
+  useEffect(() => {
+    if (questionResponse) {
+      toast.success(questionResponse)
+      getLesson();
+    } else if (questionError) {
+      toast.error(questionError?.message)
+    }
+  }, [questionError, questionResponse]);
 
   const modules = data?.map((item: any) => ({
     moduleId: item.moduleId,
@@ -76,15 +86,6 @@ const Module = () => {
     setSelectedAnswers((prev) => ({ ...prev, [questionId]: optionId }));
   };
 
-  console.log(error);
-  console.log(response);
-  console.log(result);
-
-  useEffect(() => {
-    if (response) {
-      getLesson();
-    }
-  }, [response]);
 
   // Testni yakunlash
   const handleFinishTest = async () => {
@@ -182,10 +183,9 @@ const Module = () => {
                                 active: any;
                                 checked: boolean;
                               }) =>
-                                `flex items-center p-2 rounded-lg cursor-pointer bg-white shadow-md ${
-                                  checked
-                                    ? "border-2 border-[#6A9C89]"
-                                    : "border border-gray-300"
+                                `flex items-center p-2 rounded-lg cursor-pointer bg-white shadow-md ${checked
+                                  ? "border-2 border-[#6A9C89]"
+                                  : "border border-gray-300"
                                 }`
                               }
                             >
@@ -208,12 +208,14 @@ const Module = () => {
                     ))}
 
                     {/* Testni yakunlash tugmasi */}
-                    <button
-                      onClick={handleFinishTest}
-                      className="w-full py-2 mt-4 bg-[#6A9C89] text-[#16423C] font-semibold text-lg rounded-md hover:bg-[#54907F]"
-                    >
-                      {postLoading ? "Loading.." : "Testni yakunlash"}
-                    </button>
+                    <div className="w-full flex justify-center ">
+                      <button
+                        onClick={handleFinishTest}
+                        className={` py-2 px-5 mt-4 bg-[${BorderColor}] text-[${bgColorBody}] font-semibold text-lg rounded-md hover:bg-[#54907F]`}
+                      >
+                        {postLoading ? "Loading.." : "Testni yakunlash"}
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <p className="text-[#16423C]">No questions available.</p>
