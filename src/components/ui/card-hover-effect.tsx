@@ -6,6 +6,7 @@ import { bgColor, bgColorBody, TitleTextColor } from "../Colors";
 import { useRouter } from "next/navigation";
 import ModuleStore from "@/context/state-management/moduleStore/moduleStore";
 import { File } from "@/context/api/api";
+import { CardContainer } from "./3d-card";
 export const HoverEffect = ({
   items,
   className,
@@ -17,21 +18,20 @@ export const HoverEffect = ({
     link: string;
     imgSrc: string;
     module: any;
-    id: string
+    id: string;
   }[];
   className?: string;
   fallbackUrl?: string;
 }) => {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const router = useRouter();
-  const { setCategoryId } = ModuleStore()
+  const { setCategoryId } = ModuleStore();
 
   const handleNavigation = (link: string, categoryid: string) => {
     const token = localStorage.getItem("token");
     if (token) {
       router.push(fallbackUrl || link);
-      setCategoryId(categoryid)
-
+      setCategoryId(categoryid);
     } else {
       router.push("/auth/login");
     }
@@ -51,7 +51,7 @@ export const HoverEffect = ({
             className="relative group block p-2 h-full w-full "
             onMouseEnter={() => setHoveredIndex(idx)}
             onMouseLeave={() => setHoveredIndex(null)}
-          // Call handleNavigation on click
+            // Call handleNavigation on click
           >
             <AnimatePresence>
               {hoveredIndex === idx && (
@@ -70,13 +70,20 @@ export const HoverEffect = ({
                 />
               )}
             </AnimatePresence>
-            <Card className="flex flex-col justify-between gap-3" imgSrc={item.imgSrc}>
+            <Card
+              className="flex flex-col justify-between gap-3"
+              imgSrc={item.imgSrc}
+            >
               <CardTitle>{item.title}</CardTitle>
               <CardDescription>{item.description}</CardDescription>
               <div className="flex items-center justify-between mt-4">
-                <p className={`text-[${bgColorBody}] text-sm font-semibold`}>{item?.module ? item?.module : "0"} ta modul</p>
+                <p className={`text-[${bgColorBody}] text-sm font-semibold`}>
+                  {item?.module ? item?.module : "0"} ta modul
+                </p>
                 <button
-                  onClick={() => handleNavigation(item?.link, item.id)} className="text-[20px] rounded text-white border px-6 pb-1 ">
+                  onClick={() => handleNavigation(item?.link, item.id)}
+                  className="text-[20px] rounded text-white border px-6 pb-1 "
+                >
                   Kirish
                 </button>
               </div>
@@ -94,26 +101,32 @@ export const Card = ({
 }: {
   className?: string;
   children: React.ReactNode;
-  imgSrc: string;
+  imgSrc: number | string;
 }) => {
   return (
-    <div
-      className={cn(
-        `rounded-2xl h-full w-full p-4 overflow-hidden bg-[${bgColor}] shadow-lg relative z-20`,
-        className
-      )}
-    >
-      <img
-        src={imgSrc ? `${File + imgSrc}` : "https://img.freepik.com/free-vector/illustration-social-media-concept_53876-18139.jpg"}
-        alt="Card Image"
-        className="w-full h-auto object-cover rounded-lg"
-      />
-      <div className="relative text-2xl z-50 mt-4">
-        <div className="p-4">
-          <span className={`text-[${TitleTextColor}]`}>{children}</span>
+    <CardContainer className="inter-var overflow-hidden z-20">
+      <div
+        className={cn(
+          `rounded-2xl h-full w-full p-4 overflow-hidden bg-[${bgColor}] shadow-lg relative z-20`,
+          className
+        )}
+      >
+        <img
+          src={
+            imgSrc !== 0
+              ? `${imgSrc}`
+              : "https://img.freepik.com/free-vector/illustration-social-media-concept_53876-18139.jpg"
+          }
+          alt="Card Image"
+          className="w-full h-auto object-cover rounded-lg"
+        />
+        <div className="relative text-2xl z-50 mt-4">
+          <div className="p-4">
+            <span className={`text-[${TitleTextColor}]`}>{children}</span>
+          </div>
         </div>
       </div>
-    </div>
+    </CardContainer>
   );
 };
 
@@ -125,7 +138,9 @@ export const CardTitle = ({
   children: React.ReactNode;
 }) => {
   return (
-    <h4 className={cn(`text-[${bgColorBody}] font-bold tracking-wide`, className)}>
+    <h4
+      className={cn(`text-[${bgColorBody}] font-bold tracking-wide`, className)}
+    >
       {children}
     </h4>
   );

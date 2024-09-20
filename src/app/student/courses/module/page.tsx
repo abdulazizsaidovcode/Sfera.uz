@@ -49,7 +49,6 @@ const Module = () => {
   const [selectedAnswers, setSelectedAnswers] = useState<{
     [key: number]: number;
   }>({});
-  
 
   useEffect(() => {
     getData();
@@ -143,12 +142,20 @@ const Module = () => {
         className={`relative w-full min-h-screen overflow-y-auto dark:bg-black bg-[${bgColorBody}] dark:bg-dot-white/[0.2] bg-dot-black/[0.3]`}
       >
         <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-[${bgColorBody}] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
-      <Breadcrumbs text="Lesson" className="ps-10 lg:pe-[317px]"/>
+        <div className=" w-full lg:pe-[315px] my-10 p-2 md:px-10">
+          <Breadcrumbs text="Lesson" className="" />
+        </div>
         {data ? (
           <div className="flex w-full justify-between">
             <div className="flex flex-col w-full lg:mr-[277px] p-2 md:px-10">
               {/* Video Player */}
-              <VideoPlayer videoId={!VedioLink ? "VedioLink" : "https://www.youtube.com/watch?v=eMQGZHOcw2U"} />
+              <VideoPlayer
+                videoId={
+                  !VedioLink
+                    ? "VedioLink"
+                    : "https://www.youtube.com/watch?v=eMQGZHOcw2U"
+                }
+              />
               <div className={`mt-4 p-4 bg-[${bgColor}] rounded-md`}>
                 {questionData?.length > 0 ? (
                   <div>
