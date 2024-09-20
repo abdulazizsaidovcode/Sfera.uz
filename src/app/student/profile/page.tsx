@@ -2,45 +2,173 @@
 import React, { useEffect, useState } from "react";
 import SidebarDemo from "@/components/Sidebar/Sidebar";
 import { HoverEffect } from "@/components/ui/card-hover-effect"; // Assuming this is for button effects
-import { useGet } from "@/context/globalFunctions/useGetOption"; // Fetch user data from context or API
+import { useGet } from "@/context/globalFunctions/useGetOption"; // Fetch getResponse data from context or API
 import { BackgroundLines } from "@/components/ui/background-lines";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
 import { bgColorBody } from "@/components/Colors";
 import { Input } from "@/components/ui/input";
-import { Edit_mee, File, get_mee } from "@/context/api/api";
-import { config } from "@/context/api/token";
-import { usePost } from "@/context/globalFunctions/usePostOption";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useEdit } from "@/context/globalFunctions/useEditOption";
+import { get_mee, Update_me } from "@/context/api/api";
+import toast from "react-hot-toast";
+import { Label } from "@radix-ui/react-label";
+import { LabelInputContainer } from "@/app/auth/signup/page";
+import { config } from "@/context/api/token";
 
 const Profile = () => {
-  const { data, getData, loading, error } = useGet(get_mee, config);
-  useEffect(() => {
-    getData()
-  }, [])
-  const EditMe = () => {
-    const {editData , error,  } = useEdit(Edit_mee, config)
-    
-  }
-  // console.log(data);
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({ ...data, password: "" });
+  const [formData, setFormData] = useState({
+    phoneNumber: "",
+    lastName: "",
+    firstName: "",
+    password: "",
+    confirmPassword: "",
+    isPasswordVisible: false,
+    firstNameError: "",
+    lastNameError: "",
+    phoneError: "",
+    passwordError: "",
+    confirmPasswordError: "",
+  });
+
+  const { error, loading, editData, response } = useEdit(
+    `${Update_me}?fileId=1`,
+    {
+      lastName: formData.lastName,
+      firstName: formData.firstName,
+      phoneNumber: `998${formData.phoneNumber}`,
+      password: formData.password,
+    },
+    config
+  );
+  const {
+    error: getError,
+    loading: getLoading,
+    getData,
+    data: getResponse,
+  } = useGet(`${get_mee}`, config);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  useEffect(() => {
+    if (response) {
+      localStorage.clear();
+      localStorage.setItem("token", response && response?.token);
+      localStorage.setItem("role", response && response?.role);
+      setTimeout(() => {
+        getData();
+        handleEditToggle();
+      }, 2000);
+    }
+  }, [response]);
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
-    setFormData({ ...data, password: "" });
+    // setFormData({ ...user, password: "" });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { id, value } = e.target;
+    if (id === "phone") {
+      const numericValue = value.replace(/\D/g, "");
+      if (numericValue.length <= 9) {
+        setFormData((prev) => ({
+          ...prev,
+          phoneNumber: numericValue,
+          phoneError:
+            numericValue.length !== 9
+              ? "Phone number must be exactly 9 digits."
+              : "",
+        }));
+      }
+    }
+    if (id === "firstName") {
+      setFormData((prev) => ({
+        ...prev,
+        firstName: value,
+        firstNameError: value.trim() === "" ? "First name is required." : "",
+      }));
+    }
+
+    if (id === "lastName") {
+      setFormData((prev) => ({
+        ...prev,
+        lastName: value,
+        lastNameError: value.trim() === "" ? "Last name is required." : "",
+      }));
+    }
+    // Handle password validation
+    if (id === "password") {
+      setFormData((prev) => ({
+        ...prev,
+        password: value,
+        passwordError:
+          value.length < 5
+            ? "Password must be at least 5 characters long."
+            : "",
+        confirmPasswordError:
+          value === formData.confirmPassword ? "" : "Passwords do not match.", // Check if passwords match
+      }));
+    }
+
+    if (id === "confirmPassword") {
+      setFormData((prev) => ({
+        ...prev,
+        confirmPassword: value,
+        confirmPasswordError:
+          value === formData.password ? "" : "Passwords do not match.", // Check if passwords match
+      }));
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Updated Profile:", formData);
-    // setUser({ ...formData });
-    setIsEditing(false);
+  const handlePasswordToggle = () => {
+    setFormData((prev) => ({
+      ...prev,
+      isPasswordVisible: !prev.isPasswordVisible,
+    }));
   };
 
+  const handleSubmit = async () => {
+    if (
+      formData.phoneNumber.length === 9 &&
+      formData.password.length >= 5 &&
+      formData.password === formData.confirmPassword
+    ) {
+      try {
+        console.log("Updated Profile:", {
+          lastName: formData.lastName,
+          firstName: formData.firstName,
+          phoneNumber: `998${formData.phoneNumber}`,
+          password: formData.password,
+        });
+        await editData();
+        response && toast.success("Malumotlarigiz yangilandi!");
+
+        setFormData({
+          phoneNumber: "",
+          lastName: "",
+          firstName: "",
+          password: "",
+          confirmPassword: "",
+          isPasswordVisible: false,
+          firstNameError: "",
+          lastNameError: "",
+          phoneError: "",
+          passwordError: "",
+          confirmPasswordError: "",
+        });
+      } catch (err) {
+        // Handle error
+      }
+    } else if (formData.password !== formData.confirmPassword) {
+      setFormData((prev) => ({
+        ...prev,
+        confirmPasswordError: "Passwords do not match.",
+      }));
+    }
+  };
 
   return (
     <SidebarDemo>
@@ -55,21 +183,20 @@ const Profile = () => {
             </h1>
             <div className="flex items-center justify-center mt-4">
               <img
-                src={data.fileId ? File + data.fileId : "https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg"} // Placeholder for user image
+                src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" // Placeholder for user image
                 alt="User Profile"
-                className="w-24 h-24 rounded-full object-cover border-4 border-[#16423C]"
+                className="w-24 h-24 rounded-full border-4 border-[#16423C]"
               />
             </div>
-
             {!isEditing ? (
               <div className="mt-6 w-full flex justify-center items-center flex-col">
                 <p
                   className={`text-xl font-semibold text-[${bgColorBody}] dark:text-white`}
                 >
-                  {data.firstName} {data.lastName}
+                  {getResponse?.firstName} {getResponse?.lastName}
                 </p>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {data.phoneNumber}
+                  {getResponse?.phoneNumber}
                 </p>
                 <button
                   onClick={handleEditToggle}
@@ -79,82 +206,107 @@ const Profile = () => {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+              <div className="mt-6 space-y-4">
                 <div>
                   <label
                     className={`block text-sm font-medium text-[${bgColorBody}] dark:text-white`}
                   >
                     First Name
                   </label>
+
                   <Input
-                    id="phone"
-                    placeholder=" -- --- --"
+                    id="firstName"
+                    placeholder="First Name"
                     type="text"
-                    value={formData.firstName}
+                    value={response?.firstName}
                     onChange={handleChange}
                   />
-                  {/* <input
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    className={`mt-1 p-2 w-full border border-gray-300 rounded-md dark:bg-[${bgColorBody}] dark:text-white focus:ring-[#16423C] focus:border-[#16423C]`}
-                  /> */}
                 </div>
-
                 <div>
                   <label
                     className={`block text-sm font-medium text-[${bgColorBody}] dark:text-white`}
                   >
                     Last Name
                   </label>
-                  <input
+                  <Input
+                    id="lastName"
+                    placeholder="First Name"
                     type="text"
-                    name="lastName"
-                    value={formData.lastName}
+                    value={response?.lastName}
                     onChange={handleChange}
-                    className={`mt-1 p-2 w-full border border-gray-300 rounded-md dark:bg-[${bgColorBody}] dark:text-white focus:ring-[#16423C] focus:border-[#16423C]`}
                   />
                 </div>
-
                 <div>
                   <label
                     className={`block text-sm font-medium text-[${bgColorBody}] dark:text-white`}
                   >
                     Phone Number
                   </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className={`mt-1 p-2 w-full border border-gray-300 rounded-md dark:bg-[${bgColorBody}] dark:text-white focus:ring-[#16423C] focus:border-[#16423C]"`}
-                  />
+                  <div className="relative">
+                    <Input
+                      id="phone"
+                      placeholder=" -- --- --"
+                      type="text"
+                      value={response?.phoneNumber}
+                      onChange={handleChange}
+                      maxLength={12} // Allow space for +998 and dashes
+                      className="pl-[3rem]"
+                    />
+                    <button
+                      type="button"
+                      className="absolute inset-y-0 left-0 flex items-center pl-3"
+                      onClick={handleSubmit}
+                    >
+                      +998
+                    </button>
+                  </div>
                 </div>
-
                 <div>
                   <label
                     className={`block text-sm font-medium text-[${bgColorBody}] dark:text-white`}
                   >
                     Password
                   </label>
-                  <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className={`mt-1 p-2 w-full border border-gray-300 rounded-md dark:bg-[${bgColorBody}] dark:text-white focus:ring-[#16423C] focus:border-[#16423C]`}
-                    placeholder="Enter new password"
-                  />
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      placeholder="•••••"
+                      type={formData.isPasswordVisible ? "text" : "password"}
+                      value={response?.password}
+                      onChange={handleChange}
+                    />
+                    <button
+                      type="button"
+                      className="absolute inset-y-0 right-0 flex items-center pr-3"
+                      onClick={handlePasswordToggle}
+                    >
+                      {formData.isPasswordVisible ? <FaEye /> : <FaEyeSlash />}
+                    </button>
+                  </div>
                 </div>
-
-                <div className="flex justify-between">
-                  <button
-                    type="submit"
-                    className="mt-4 w-[48%] py-2 bg-[#16423C] text-white font-semibold rounded-lg hover:bg-[#5a8b7a] transition-all duration-200"
+                <LabelInputContainer className="md:mb-4 mb-2">
+                  <Label
+                    className="text-white font-semibold"
+                    htmlFor="confirmPassword"
                   >
-                    Save
-                  </button>
+                    Confirm Password
+                  </Label>
+                  <div className="relative">
+                    <Input
+                      id="confirmPassword"
+                      placeholder="•••••"
+                      type={formData.isPasswordVisible ? "text" : "password"}
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  {formData.confirmPasswordError && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {formData.confirmPasswordError}
+                    </p>
+                  )}
+                </LabelInputContainer>
+                <div className="flex justify-between">
                   <button
                     type="button"
                     onClick={handleEditToggle}
@@ -162,8 +314,14 @@ const Profile = () => {
                   >
                     Cancel
                   </button>
+                  <button
+                    onClick={handleSubmit}
+                    className="mt-4 w-[48%] py-2 bg-[#16423C] text-white font-semibold rounded-lg hover:bg-[#5a8b7a] transition-all duration-200"
+                  >
+                    Save
+                  </button>
                 </div>
-              </form>
+              </div>
             )}
           </div>
         </BackgroundGradient>

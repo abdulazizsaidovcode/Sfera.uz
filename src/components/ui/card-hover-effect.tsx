@@ -40,7 +40,7 @@ export const HoverEffect = ({
   return (
     <div
       className={cn(
-        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3   2xl:grid-cols-4 w-full gap-5 py-10",
+        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-full gap-5 py-10",
         className
       )}
     >
@@ -56,7 +56,7 @@ export const HoverEffect = ({
             <AnimatePresence>
               {hoveredIndex === idx && (
                 <motion.span
-                  className="absolute inset-0 h-full w-full bg-[#93b3ae] block rounded-3xl"
+                  className="absolute inset-0 h-full w-ful -z-10 bg-[#93b3ae] block rounded-3xl"
                   layoutId="hoverBackground"
                   initial={{ opacity: 0 }}
                   animate={{
@@ -70,24 +70,26 @@ export const HoverEffect = ({
                 />
               )}
             </AnimatePresence>
-            <Card
-              className="flex flex-col justify-between gap-3"
-              imgSrc={item.imgSrc}
-            >
-              <CardTitle>{item.title}</CardTitle>
-              <CardDescription>{item.description}</CardDescription>
-              <div className="flex items-center justify-between mt-4">
-                <p className={`text-[${bgColorBody}] text-sm font-semibold`}>
-                  {item?.module ? item?.module : "0"} ta modul
-                </p>
-                <button
-                  onClick={() => handleNavigation(item?.link, item.id)}
-                  className="text-[20px] rounded text-white border px-6 pb-1 "
-                >
-                  Kirish
-                </button>
-              </div>
-            </Card>
+            <CardContainer className="inter-var overflow-hidden z-30">
+              <Card
+                className="flex flex-col justify-between gap-3"
+                imgSrc={item.imgSrc}
+              >
+                <CardTitle>{item.title}</CardTitle>
+                <CardDescription>{item.description}</CardDescription>
+                <div className="flex items-center justify-between mt-4">
+                  <p className={`text-[${bgColorBody}] text-sm font-semibold`}>
+                    {item?.module ? item?.module : "0"} ta modul
+                  </p>
+                  <button
+                    onClick={() => handleNavigation(item?.link, item.id)}
+                    className="text-[20px] rounded text-white border px-6 pb-1 "
+                  >
+                    Kirish
+                  </button>
+                </div>
+              </Card>
+            </CardContainer>
           </div>
         ))}
     </div>
@@ -104,29 +106,27 @@ export const Card = ({
   imgSrc: number | string;
 }) => {
   return (
-    <CardContainer className="inter-var overflow-hidden z-20">
-      <div
-        className={cn(
-          `rounded-2xl h-full w-full p-4 overflow-hidden bg-[${bgColor}] shadow-lg relative z-20`,
-          className
-        )}
-      >
-        <img
-          src={
-            imgSrc !== 0
-              ? `${imgSrc}`
-              : "https://img.freepik.com/free-vector/illustration-social-media-concept_53876-18139.jpg"
-          }
-          alt="Card Image"
-          className="w-full h-auto object-cover rounded-lg"
-        />
-        <div className="relative text-2xl z-50 mt-4">
-          <div className="p-4">
-            <span className={`text-[${TitleTextColor}]`}>{children}</span>
-          </div>
+    <div
+      className={cn(
+        `rounded-2xl h-full w-full p-4 overflow-hidden bg-[${bgColor}] shadow-lg relative z-20`,
+        className
+      )}
+    >
+      <img
+        src={
+          imgSrc !== 0
+            ? `${imgSrc}`
+            : "https://img.freepik.com/free-vector/illustration-social-media-concept_53876-18139.jpg"
+        }
+        alt="Card Image"
+        className="w-full h-auto object-cover rounded-lg"
+      />
+      <div className="relative text-2xl z-50 mt-4">
+        <div className="p-4">
+          <span className={`text-[${TitleTextColor}]`}>{children}</span>
         </div>
       </div>
-    </CardContainer>
+    </div>
   );
 };
 

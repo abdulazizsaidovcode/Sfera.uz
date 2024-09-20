@@ -2,6 +2,7 @@
 import { usePathname } from "next/navigation";
 import React from "react";
 import { bgColor, BorderColor } from "../Colors";
+import { AuroraBackground } from "../ui/aurora-background";
 
 const Breadcrumbs = ({
   text,
@@ -14,8 +15,10 @@ const Breadcrumbs = ({
 }) => {
   const pathName = usePathname();
   return (
+    <AuroraBackground>
+
     <div
-      className={`flex justify-between bg-[rgba(73,132,109,0.21)] backdrop-blur-xl w-full rounded-2xl text-xl py-5 px-10 font-semibold ${className}`}
+      className={`flex justify-between  w-full rounded-2xl text-xl py-5 px-10 font-semibold ${className}`}
     >
       <h2
         className={`text-[35px] font-bold text-[${BorderColor}] ${textclassName}`}
@@ -24,6 +27,7 @@ const Breadcrumbs = ({
       </h2>
       <h2 className={`hidden md:block text-[${BorderColor}]`}>{pathName}</h2>
     </div>
+    </AuroraBackground>
   );
 };
 

@@ -23,7 +23,7 @@ const Courses = () => {
     title: item.name,
     description: item.description,
     link: "/student/courses/module",
-    module: item?.module ? item?.module : 0
+    module: item?.moduleCount ? item?.moduleCount : 0
   }));
 
   return (
