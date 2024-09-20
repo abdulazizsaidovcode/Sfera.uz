@@ -7,15 +7,21 @@ import { BackgroundLines } from "@/components/ui/background-lines";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
 import { bgColorBody } from "@/components/Colors";
 import { Input } from "@/components/ui/input";
-import { File, get_mee } from "@/context/api/api";
+import { Edit_mee, File, get_mee } from "@/context/api/api";
 import { config } from "@/context/api/token";
+import { usePost } from "@/context/globalFunctions/usePostOption";
+import { useEdit } from "@/context/globalFunctions/useEditOption";
 
 const Profile = () => {
   const { data, getData, loading, error } = useGet(get_mee, config);
   useEffect(() => {
     getData()
   }, [])
-  console.log(data);
+  const EditMe = () => {
+    const {editData , error,  } = useEdit(Edit_mee, config)
+    
+  }
+  // console.log(data);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({ ...data, password: "" });
 
