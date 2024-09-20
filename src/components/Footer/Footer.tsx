@@ -8,11 +8,11 @@ const Footer: React.FC = () => {
         <footer className="bg-[#16423C]  text-white py-6">
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <Image src={Images.Logo} className='my-3' alt="Hero image" width={150} />
                 <div className="flex flex-col md:flex-row justify-between">
                     {/* Footer Navigation */}
                     <div className="mb-6 md:mb-0">
-                        <h3 className="text-lg font-semibold mb-2">Quick Links</h3>
+                <Image src={Images.Logo} className='my-3' alt="Hero image" width={200} />
+                        {/* <h3 className="text-lg font-semibold mb-2">Quick Links</h3>
                         <ul className="space-y-2">
                             <li>
                                 <a href="https://" className="hover:underline">Home</a>
@@ -26,7 +26,7 @@ const Footer: React.FC = () => {
                             <li>
                                 <a href="#contact" className="hover:underline">Contact</a>
                             </li>
-                        </ul>
+                        </ul> */}
                     </div>
 
                     <div className="mb-6 md:mb-0">
@@ -48,14 +48,14 @@ const Footer: React.FC = () => {
                     </div>
                     <div className='flex flex-col gap-2'>
                         <h3 className="text-lg font-semibold mb-2">Contact Us</h3>
-                        <p className="text-sm">+998508890037</p>
-                        <p className="text-sm">123 Main Street, Anytown, USA</p>
+                        {/* <p className="text-sm">+998508890037</p> */}
+                        <p className="text-sm">Qarshi Uzbekistan St</p>
                         <p className="text-sm"></p>
-                        <p className="text-sm">Phone: (123) 456-7890</p>
+                        <p className="text-sm">Phone: (+998)50 889-00-37</p>
                     </div>   
                 </div>
                 <div className="mt-6 border-t border-gray-700 pt-4 text-center">
-                    <p className="text-sm">&copy; {new Date().getFullYear()} Your Company. All rights reserved.</p>
+                    <p className="text-sm">&copy; {new Date().getFullYear()} Sfera It Solotions. All rights reserved.</p>
                 </div>
             </div>
         </footer>
