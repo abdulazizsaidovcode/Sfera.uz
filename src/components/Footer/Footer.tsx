@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
                 <div className="flex flex-col md:flex-row justify-between">
                     {/* Footer Navigation */}
                     <div className="mb-6 md:mb-0">
-                <Image src={Images.Logo} className='my-3' alt="Hero image" width={200} />
+                        <Image src={Images.Logo} className='my-3' alt="Hero image" width={200} />
                         {/* <h3 className="text-lg font-semibold mb-2">Quick Links</h3>
                         <ul className="space-y-2">
                             <li>
@@ -52,7 +52,7 @@ const Footer: React.FC = () => {
                         <p className="text-sm">Qarshi Uzbekistan St</p>
                         <p className="text-sm"></p>
                         <p className="text-sm">Phone: (+998)50 889-00-37</p>
-                    </div>   
+                    </div>
                 </div>
                 <div className="mt-6 border-t border-gray-700 pt-4 text-center">
                     <p className="text-sm">&copy; {new Date().getFullYear()} Sfera It Solotions. All rights reserved.</p>

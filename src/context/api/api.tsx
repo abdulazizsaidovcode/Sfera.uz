@@ -12,3 +12,4 @@ export const getCategory = `${BASE_URL}category/list?categoryEnum=ONLINE`
 
 export const File = `${BASE_URL}file/files/`
 
+

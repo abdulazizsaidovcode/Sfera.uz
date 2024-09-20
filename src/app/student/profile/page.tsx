@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SidebarDemo from "@/components/Sidebar/Sidebar";
 import { HoverEffect } from "@/components/ui/card-hover-effect"; // Assuming this is for button effects
 import { useGet } from "@/context/globalFunctions/useGetOption"; // Fetch user data from context or API
@@ -7,21 +7,21 @@ import { BackgroundLines } from "@/components/ui/background-lines";
 import { BackgroundGradient } from "@/components/ui/background-gradient";
 import { bgColorBody } from "@/components/Colors";
 import { Input } from "@/components/ui/input";
+import { File, get_mee } from "@/context/api/api";
+import { config } from "@/context/api/token";
 
 const Profile = () => {
-  // Sample data for the user, you can replace this with real data from the backend or context
-  const [user, setUser] = useState({
-    firstName: "John",
-    lastName: "Doe",
-    phone: "+998 90 123 45 67",
-  });
-
+  const { data, getData, loading, error } = useGet(get_mee, config);
+  useEffect(() => {
+    getData()
+  }, [])
+  console.log(data);
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({ ...user, password: "" });
+  const [formData, setFormData] = useState({ ...data, password: "" });
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
-    setFormData({ ...user, password: "" });
+    setFormData({ ...data, password: "" });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,11 +30,11 @@ const Profile = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you can handle the form submission (send data to the backend)
     console.log("Updated Profile:", formData);
-    setUser({ ...formData });
+    // setUser({ ...formData });
     setIsEditing(false);
   };
+
 
   return (
     <SidebarDemo>
@@ -49,9 +49,9 @@ const Profile = () => {
             </h1>
             <div className="flex items-center justify-center mt-4">
               <img
-                src="https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" // Placeholder for user image
+                src={data.fileId ? File + data.fileId : "https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg"} // Placeholder for user image
                 alt="User Profile"
-                className="w-24 h-24 rounded-full border-4 border-[#16423C]"
+                className="w-24 h-24 rounded-full object-cover border-4 border-[#16423C]"
               />
             </div>
 
@@ -60,10 +60,10 @@ const Profile = () => {
                 <p
                   className={`text-xl font-semibold text-[${bgColorBody}] dark:text-white`}
                 >
-                  {user.firstName} {user.lastName}
+                  {data.firstName} {data.lastName}
                 </p>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {user.phone}
+                  {data.phoneNumber}
                 </p>
                 <button
                   onClick={handleEditToggle}
