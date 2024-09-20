@@ -1,5 +1,4 @@
 'use client';
-
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import Hero from '@/components/Hero/Hero-slide';
@@ -39,7 +38,7 @@ export default function Home() {
   const [queryClient] = useState(() => new QueryClient());
   useEffect(() => {
     getData();
-  })
+  },[])
   return (
 
     <div style={{ backgroundColor: bgColorBody }} className={`w-full bg-[${bgColorBody}] dark:bg-black relative  min-h-screen overflow-y-auto bg-[${bgColorBody}] dark:bg-dot-white/[0.2] bg-dot-black/[0.3]`}>

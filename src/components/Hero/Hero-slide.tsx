@@ -63,12 +63,13 @@ const Hero: React.FC<HeroProps> = ({ slides }) => {
                     color: #16423C;
                     width: 30px;
                     height: 30px;
-                    margin-top: -20px;
+                    // margin-top: -20px;
                 }
 
                 :global(.swiper-button-next:after),
                 :global(.swiper-button-prev:after) {
-                    font-size: 20px;
+                    font-size: 25px;
+                    margin-right: 36px; 
                 }
 
                 :global(.swiper-pagination-bullet) {
