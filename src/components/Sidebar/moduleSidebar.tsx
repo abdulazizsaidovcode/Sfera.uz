@@ -50,7 +50,6 @@ const ModuleSidebar: React.FC<ModuleSidebarProps> = ({ modules, lessons }) => {
   }, [lessons, modules, initialLoadDone, setSelectedLessonId, setVedioLink]);
 
   useEffect(() => {
-    // Fetch data when selectedLessonId changes if initial load is complete
     if (initialLoadDone || selectedLessonId) {
       getData();
     }
