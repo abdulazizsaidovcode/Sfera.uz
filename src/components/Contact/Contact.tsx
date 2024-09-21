@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Input } from '../ui/input';
 import { usePost } from '@/context/globalFunctions/usePostOption';
 import { contactUs } from '@/context/api/api';
-import toast from 'react-hot-toast';  // Import toast
+import toast from 'react-hot-toast';
 
 const ContactUs: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -14,13 +14,12 @@ const ContactUs: React.FC = () => {
         phone: '+998',
     });
     const [error, setError] = useState<string | null>(null);
-
     const { loading, error: apiError, response, postData } = usePost(
         contactUs,
         {
             name: formData.name,
             message: formData.message,
-            phone: formData.phone.replace('+', ''), // Format phone without "+"
+            phone: formData.phone.replace('+', ''),
         }
     );
 
@@ -44,19 +43,14 @@ const ContactUs: React.FC = () => {
         setError(null);
 
         try {
-            await postData(); // Send form data
-
-            // Display success toast
+            await postData(); 
             toast.success('Message sent successfully!');
-
-            // Reset form after successful submission
             setFormData({
                 name: '',
                 message: '',
                 phone: '+998',
             });
         } catch (error) {
-            // Show error toast on failure
             toast.error('Failed to send message. Please try again.');
         }
     };
@@ -109,11 +103,10 @@ const ContactUs: React.FC = () => {
                 </form>
             </div>
             <div className="w-full mx-auto lg:p-10">
-                <Image className="rounded-lg" src={Images.Test} alt="Hero image" width={400} height={400} />
+                <Image className="rounded-lg" src={Images.ContactuS} alt="Hero image" width={400} height={400} />
             </div>
         </div>
     );
 };
 
 export default ContactUs;
-x
