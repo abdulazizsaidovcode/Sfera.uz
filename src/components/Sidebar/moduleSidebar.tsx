@@ -94,9 +94,8 @@ const ModuleSidebar: React.FC<ModuleSidebarProps> = ({ modules, lessons }) => {
               >
                 <span className="font-medium text-lg">{module.name}</span>
                 <RiArrowDropDownLine
-                  className={`text-2xl transition-transform ${
-                    activeModule === module.moduleId ? "rotate-180" : ""
-                  }`}
+                  className={`text-2xl transition-transform ${activeModule === module.moduleId ? "rotate-180" : ""
+                    }`}
                 />
               </div>
 
@@ -112,23 +111,22 @@ const ModuleSidebar: React.FC<ModuleSidebarProps> = ({ modules, lessons }) => {
                       {lessons
                         ?.filter((lesson) => lesson.moduleId === module.moduleId)
                         .map((lesson) => (
-                            <li
-                              className={`text-base flex justify-between w-full items-center cursor-pointer transition ${
-                                lesson.lessonActive
-                                  ? selectedLessonId === lesson.lessonId
-                                    ? "text-[#16423C] font-bold"
-                                    : "hover:text-[#6A9C89]"
-                                  : "text-[#B0B0B0] cursor-not-allowed"
+                          <li
+                            className={`text-base flex justify-between w-full items-center cursor-pointer transition ${lesson.lessonActive
+                                ? selectedLessonId === lesson.lessonId
+                                  ? "text-[#16423C] font-bold"
+                                  : "hover:text-[#6A9C89]"
+                                : "text-[#B0B0B0] cursor-not-allowed"
                               }`}
-                              onClick={() =>
-                                lesson.lessonActive
-                                  ? handleLessonClick(lesson.lessonId, lesson.videoLink)
-                                  : undefined
-                              }
-                            >
-                              <span>{lesson.name || "No name"}</span>
-                              {!lesson.lessonActive && <FaLock />}
-                            </li>
+                            onClick={() =>
+                              lesson.lessonActive
+                                ? handleLessonClick(lesson.lessonId, lesson.videoLink)
+                                : undefined
+                            }
+                          >
+                            <span>{lesson.name || "No name"}</span>
+                            {!lesson.lessonActive && <FaLock />}
+                          </li>
                         ))}
                       {lessons.every((lesson) => lesson.moduleId !== module.moduleId) && (
                         <li className="text-base cursor-pointer transition text-[#6A9C89] font-bold">

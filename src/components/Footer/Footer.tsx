@@ -35,7 +35,7 @@ const Footer: React.FC = () => {
                             <a target='blank' href="https://youtube.com/itcityacademy/" className="hover:text-red-600">
                                 <FaYoutube size={24} />
                             </a>
-                            <a target='blank' href="https://t.me/itcity_academy" className="hover:text-blue-500">
+                            <a target='blank' href="https://www.youtube.com/@Itcity_academy" className="hover:text-blue-500">
                                 <FaTelegram size={24} />
                             </a>
                             <a target='blank' href="https://www.instagram.com/itcity_academy/" className="hover:text-red-500">

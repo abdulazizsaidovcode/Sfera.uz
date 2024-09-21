@@ -3,55 +3,89 @@ import React, { useState } from 'react';
 import HeaderTitles from '../Text/HeadText';
 import Image from 'next/image';
 import { Input } from '../ui/input';
+import { usePost } from '@/context/globalFunctions/usePostOption';
+import { contactUs } from '@/context/api/api';
+import toast from 'react-hot-toast';  // Import toast
 
-interface ContactUsProps {
-    onSubmit: (formData: { name: string; email: string; message: string }) => void;
-}
-
-const ContactUs: React.FC<ContactUsProps> = ({ onSubmit }) => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [message, setMessage] = useState('');
+const ContactUs: React.FC = () => {
+    const [formData, setFormData] = useState({
+        name: '',
+        message: '',
+        phone: '+998',
+    });
     const [error, setError] = useState<string | null>(null);
-    const handleSubmit = (event: React.FormEvent) => {
+
+    const { loading, error: apiError, response, postData } = usePost(
+        contactUs,
+        {
+            name: formData.name,
+            message: formData.message,
+            phone: formData.phone.replace('+', ''), // Format phone without "+"
+        }
+    );
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { id, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [id]: value,
+        }));
+    };
+
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        if (!name || !email || !message) {
+
+        const { name, message, phone } = formData;
+        if (!name || !message || !phone) {
             setError('All fields are required.');
             return;
         }
+
         setError(null);
-        onSubmit({ name, email, message });
-        setName('');
-        setEmail('');
-        setMessage('');
+
+        try {
+            await postData(); // Send form data
+
+            // Display success toast
+            toast.success('Message sent successfully!');
+
+            // Reset form after successful submission
+            setFormData({
+                name: '',
+                message: '',
+                phone: '+998',
+            });
+        } catch (error) {
+            // Show error toast on failure
+            toast.error('Failed to send message. Please try again.');
+        }
     };
 
     return (
         <div className="flex lg:flex-row items-center text-white lg:justify-between gap-3 flex-col p-6 bg-[#6A9C89] rounded-xl my-2">
-            <div className="w-full  mx-auto">
+            <div className="w-full mx-auto">
                 <form onSubmit={handleSubmit} className="space-y-4 w-full">
                     {error && <div className="text-red-500 mb-4">{error}</div>}
+                    {apiError && <div className="text-red-500 mb-4">API Error: {apiError.message}</div>}
                     <div className="flex flex-col">
                         <label htmlFor="name" className="mb-2 font-medium">Name</label>
                         <Input
                             type="text"
                             id="name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            // required
-                            placeholder='Enter your name '
+                            value={formData.name}
+                            onChange={handleChange}
+                            placeholder="Enter your name"
                             className="p-2 border text-[#6A9C89] border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
                     <div className="flex flex-col">
-                        <label htmlFor="email" className="mb-2 font-medium">Email</label>
+                        <label htmlFor="phone" className="mb-2 font-medium">Phone</label>
                         <Input
-                            type="email"
-                            id="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder='Enter your email'
-                            required
+                            type="number"
+                            id="phone"
+                            value={formData.phone}
+                            onChange={handleChange}
+                            placeholder="Enter your phone number"
                             className="p-2 border text-[#6A9C89] border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
@@ -59,18 +93,18 @@ const ContactUs: React.FC<ContactUsProps> = ({ onSubmit }) => {
                         <label htmlFor="message" className="mb-2 font-medium">Message</label>
                         <textarea
                             id="message"
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            required
-                            placeholder='Enter Messege'
+                            value={formData.message}
+                            onChange={handleChange}
+                            placeholder="Enter your message"
                             className="p-2 border text-[#6A9C89] border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         ></textarea>
                     </div>
                     <button
                         type="submit"
-                        className="text-[20px] flex  items-center justify-center rounded bg-[#C4DAD2] text-white border px-6 pb-2 mt-4"
+                        className="text-[20px] flex items-center justify-center rounded bg-[#C4DAD2] text-white border px-6 pb-2 mt-4"
+                        disabled={loading} // Disable button while loading
                     >
-                        <HeaderTitles size='text-sm ' text='Send Messege' />
+                        <HeaderTitles size="text-sm" text={loading ? 'Sending...' : 'Send Message'} />
                     </button>
                 </form>
             </div>
@@ -82,3 +116,4 @@ const ContactUs: React.FC<ContactUsProps> = ({ onSubmit }) => {
 };
 
 export default ContactUs;
+x
