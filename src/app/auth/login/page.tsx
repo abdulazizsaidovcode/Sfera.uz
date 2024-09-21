@@ -46,6 +46,7 @@ export default function SignupFormDemo() {
 
   useEffect( () => {
     if (response) {
+      localStorage.clear()
       const expiryTime = new Date().getTime() + 24 * 60 * 60 * 1000;
       localStorage.setItem("tokenExpiry", expiryTime.toString());
       localStorage.setItem("token", response?.token);
