@@ -65,11 +65,11 @@ export default function Home() {
           )}
 
           {error && (
-            <p className="text-[#16423C] text-center">Ma'lumotlarni yuklashda xatolik yuz berdi!</p>
+            <p className=" text-[#16423C] text-center">Ma'lumotlarni yuklashda xatolik yuz berdi!</p>
           )}
 
           <HeaderTitles text='Contact us' />
-          <ContactUs onSubmit={() => { }} />
+          <ContactUs />
         </div>
       </div>
       <Footer />

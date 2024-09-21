@@ -161,9 +161,9 @@ const Module = () => {
                 {questionData?.length > 0 ? (
                   <div>
                     {questionData.map((question: any) => (
-                      <div key={question.id} className="mb-6">
+                      <div key={question?.id} className="mb-6">
                         <h3 className="text-xl font-semibold text-[#16423C] mb-3">
-                          {question.name}
+                          {question?.name}
                         </h3>
                         <RadioGroup
                           value={selectedAnswers[question.id]}
@@ -174,8 +174,8 @@ const Module = () => {
                         >
                           {question.optionDto.map((option: any) => (
                             <RadioGroup.Option
-                              key={option.id}
-                              value={option.id}
+                              key={option?.id}
+                              value={option?.id}
                               className={({
                                 active,
                                 checked,
@@ -197,7 +197,7 @@ const Module = () => {
                                     <RiCheckboxBlankCircleLine className="text-[#6A9C89] text-2xl mr-2" />
                                   )}
                                   <span className="text-lg text-[#16423C]">
-                                    {option.answer}
+                                    {option?.answer}
                                   </span>
                                 </>
                               )}
