@@ -152,9 +152,9 @@ const Module = () => {
               {/* Video Player */}
               <VideoPlayer
                 videoId={
-                  !VedioLink
+                  VedioLink
                     ? "VedioLink"
-                    : "https://www.youtube.com/watch?v=eMQGZHOcw2U"
+                    : "eMQGZHOcw2U"
                 }
               />
               <div className={`mt-4 p-4 bg-[${bgColor}] rounded-md`}>
@@ -206,8 +206,6 @@ const Module = () => {
                         </RadioGroup>
                       </div>
                     ))}
-
-                    {/* Testni yakunlash tugmasi */}
                     <div className="w-full flex justify-center ">
                       <button
                         onClick={handleFinishTest}
@@ -222,7 +220,6 @@ const Module = () => {
                 )}
               </div>
             </div>
-            {/* Test Section */}
             <ModuleSidebar modules={modules} lessons={lessons} />
           </div>
         ) : (

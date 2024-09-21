@@ -9,7 +9,8 @@ import ModuleStore from "@/context/state-management/moduleStore/moduleStore";
 import { FaLock } from "react-icons/fa";
 import { useGet } from "@/context/globalFunctions/useGetOption";
 import { config } from "@/context/api/token";
-import { get_lesson, get_question } from "@/context/api/api";
+import { get_question } from "@/context/api/api";
+import { AuroraBackground } from "../ui/aurora-background";
 
 export interface ModuleSidebarProps {
   modules: { moduleId: number; name: string; categoryId: number }[];
@@ -33,7 +34,7 @@ const ModuleSidebar: React.FC<ModuleSidebarProps> = ({ modules, lessons }) => {
 
   useEffect(() => {
     // Handle initial load and set initial lesson
-    if (modules?.length > 0 && lessons?.length > 0 && activeModule === null) {
+    if (!initialLoadDone && modules?.length > 0 && lessons?.length > 0) {
       const firstModule = modules[0];
       const firstModuleLessons = lessons.filter(
         (lesson) => lesson.moduleId === firstModule.moduleId
@@ -46,7 +47,7 @@ const ModuleSidebar: React.FC<ModuleSidebarProps> = ({ modules, lessons }) => {
         setInitialLoadDone(true);
       }
     }
-  }, [lessons, modules, activeModule, setSelectedLessonId, setVedioLink]);
+  }, [lessons, modules, initialLoadDone, setSelectedLessonId, setVedioLink]);
 
   useEffect(() => {
     // Fetch data when selectedLessonId changes if initial load is complete
@@ -56,14 +57,12 @@ const ModuleSidebar: React.FC<ModuleSidebarProps> = ({ modules, lessons }) => {
   }, [selectedLessonId, initialLoadDone]);
 
   useEffect(() => {
-    setquestionData(data)
-  }, [data])
+    setquestionData(data);
+  }, [data]);
 
   // Handle module toggle
   const toggleAccordion = (moduleId: number) => {
-    setActiveModule((prevModule) =>
-      prevModule === moduleId ? null : moduleId
-    );
+    setActiveModule((prevModule) => (prevModule === moduleId ? null : moduleId));
   };
 
   // Handle lesson click
@@ -112,39 +111,27 @@ const ModuleSidebar: React.FC<ModuleSidebarProps> = ({ modules, lessons }) => {
                   >
                     <ul className="p-4 space-y-2">
                       {lessons
-                        ?.filter(
-                          (lesson) => lesson.moduleId === module.moduleId
-                        )
+                        ?.filter((lesson) => lesson.moduleId === module.moduleId)
                         .map((lesson) => (
-                          <li
-                            key={lesson.lessonId}
-                            className={`text-base flex justify-between w-full items-center cursor-pointer transition ${
-                              lesson.lessonActive
-                                ? selectedLessonId === lesson.lessonId
-                                  ? "text-[#16423C] font-bold"
-                                  : "hover:text-[#6A9C89]"
-                                : "text-[#B0B0B0] cursor-not-allowed"
-                            }`}
-                            onClick={() =>
-                              lesson.lessonActive
-                                ? handleLessonClick(
-                                    lesson.lessonId,
-                                    lesson.videoLink
-                                  )
-                                : undefined
-                            }
-                          >
-                            <span>{lesson.name || "No name"}</span>{" "}
-                            {!lesson.lessonActive && (
-                              <span>
-                                <FaLock />
-                              </span>
-                            )}
-                          </li>
+                            <li
+                              className={`text-base flex justify-between w-full items-center cursor-pointer transition ${
+                                lesson.lessonActive
+                                  ? selectedLessonId === lesson.lessonId
+                                    ? "text-[#16423C] font-bold"
+                                    : "hover:text-[#6A9C89]"
+                                  : "text-[#B0B0B0] cursor-not-allowed"
+                              }`}
+                              onClick={() =>
+                                lesson.lessonActive
+                                  ? handleLessonClick(lesson.lessonId, lesson.videoLink)
+                                  : undefined
+                              }
+                            >
+                              <span>{lesson.name || "No name"}</span>
+                              {!lesson.lessonActive && <FaLock />}
+                            </li>
                         ))}
-                      {lessons.every(
-                        (lesson) => lesson.moduleId !== module.moduleId
-                      ) && (
+                      {lessons.every((lesson) => lesson.moduleId !== module.moduleId) && (
                         <li className="text-base cursor-pointer transition text-[#6A9C89] font-bold">
                           Darslik topilmadi
                         </li>
